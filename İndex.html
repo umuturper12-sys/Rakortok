@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<meta name="theme-color" content="#050505">
 <title>RekorTok</title>
 
 <style>
@@ -26,7 +27,14 @@ button,input,textarea{
   font:inherit;
 }
 
-/* INTRO */
+button{
+  border:0;
+  outline:0;
+}
+
+/* =========================================================
+   INTRO
+========================================================= */
 
 #intro{
   position:fixed;
@@ -36,7 +44,9 @@ button,input,textarea{
   align-items:center;
   justify-content:center;
   background:#000;
-  transition:opacity 1s ease,visibility 1s ease;
+  transition:
+    opacity 1s ease,
+    visibility 1s ease;
 }
 
 #intro.hide{
@@ -57,13 +67,16 @@ button,input,textarea{
     opacity:.55;
     transform:scale(.96);
   }
+
   50%{
     opacity:1;
     transform:scale(1.04);
   }
 }
 
-/* APP */
+/* =========================================================
+   APP
+========================================================= */
 
 #app{
   position:relative;
@@ -85,7 +98,9 @@ button,input,textarea{
     );
 }
 
-/* TOP */
+/* =========================================================
+   TOPBAR
+========================================================= */
 
 .topbar{
   position:absolute;
@@ -95,18 +110,21 @@ button,input,textarea{
 
   z-index:100;
 
-  height:76px;
+  min-height:76px;
 
   display:flex;
   align-items:center;
   gap:12px;
 
-  padding:12px 15px;
+  padding:
+    calc(12px + env(safe-area-inset-top))
+    15px
+    12px;
 
   background:
     linear-gradient(
       180deg,
-      rgba(0,0,0,.92),
+      rgba(0,0,0,.94),
       rgba(0,0,0,.3),
       transparent
     );
@@ -130,7 +148,7 @@ button,input,textarea{
   width:100%;
   height:44px;
 
-  padding:0 72px 0 18px;
+  padding:0 74px 0 18px;
 
   border-radius:999px;
 
@@ -139,6 +157,7 @@ button,input,textarea{
   outline:none;
 
   color:#fff;
+
   background:rgba(255,255,255,.08);
 
   backdrop-filter:blur(18px);
@@ -172,7 +191,6 @@ button,input,textarea{
   width:25px;
   height:25px;
 
-  border:0;
   border-radius:50%;
 
   display:none;
@@ -189,23 +207,30 @@ button,input,textarea{
   display:flex;
 }
 
-/* SEARCH INFO */
+/* =========================================================
+   SEARCH INFO
+========================================================= */
 
 #searchInfo{
   position:absolute;
-  top:82px;
+
+  top:86px;
   left:50%;
+
   transform:translateX(-50%);
 
   z-index:90;
 
   display:none;
 
+  max-width:calc(100% - 30px);
+
   padding:8px 15px;
 
   border-radius:999px;
 
-  background:rgba(0,0,0,.75);
+  background:rgba(0,0,0,.76);
+
   border:1px solid rgba(255,255,255,.12);
 
   backdrop-filter:blur(15px);
@@ -214,18 +239,24 @@ button,input,textarea{
   font-weight:900;
 
   white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
 }
 
 #searchInfo.show{
   display:block;
 }
 
-/* FEED */
+/* =========================================================
+   FEED
+========================================================= */
 
 #feed{
   position:relative;
+
   width:100%;
   height:100%;
+
   overflow:hidden;
 }
 
@@ -237,11 +268,16 @@ button,input,textarea{
   align-items:center;
   justify-content:center;
 
-  padding:95px 82px 50px;
+  padding:
+    95px
+    82px
+    50px;
 
   opacity:0;
 
-  transform:translateY(80px) scale(.97);
+  transform:
+    translateY(80px)
+    scale(.97);
 
   pointer-events:none;
 
@@ -252,22 +288,32 @@ button,input,textarea{
 
 .card.active{
   opacity:1;
-  transform:translateY(0) scale(1);
+
+  transform:
+    translateY(0)
+    scale(1);
+
   pointer-events:auto;
 }
 
 .card.previous{
-  transform:translateY(-80px) scale(.97);
+  transform:
+    translateY(-80px)
+    scale(.97);
 }
 
 .card.next{
-  transform:translateY(80px) scale(.97);
+  transform:
+    translateY(80px)
+    scale(.97);
 }
 
-/* CONTENT */
+/* =========================================================
+   CARD CONTENT
+========================================================= */
 
 .content{
-  width:min(700px,100%);
+  width:min(720px,100%);
 
   display:flex;
   flex-direction:column;
@@ -286,8 +332,11 @@ button,input,textarea{
 
   border-radius:30px;
 
-  background:rgba(255,190,50,.09);
-  border:1px solid rgba(255,210,80,.2);
+  background:
+    rgba(255,190,50,.09);
+
+  border:
+    1px solid rgba(255,210,80,.2);
 
   font-size:55px;
 
@@ -302,10 +351,14 @@ button,input,textarea{
 
   border-radius:999px;
 
-  background:rgba(255,255,255,.08);
-  border:1px solid rgba(255,255,255,.12);
+  background:
+    rgba(255,255,255,.08);
+
+  border:
+    1px solid rgba(255,255,255,.12);
 
   font-size:10px;
+
   font-weight:900;
 
   letter-spacing:1px;
@@ -314,7 +367,8 @@ button,input,textarea{
 }
 
 .recordTitle{
-  font-size:clamp(34px,7vw,64px);
+  font-size:
+    clamp(34px,7vw,64px);
 
   line-height:.98;
 
@@ -328,7 +382,8 @@ button,input,textarea{
 .recordQuestion{
   max-width:650px;
 
-  font-size:clamp(19px,4.4vw,31px);
+  font-size:
+    clamp(19px,4.4vw,31px);
 
   line-height:1.15;
 
@@ -338,40 +393,48 @@ button,input,textarea{
 }
 
 .recordSub{
-  max-width:570px;
+  max-width:590px;
 
-  color:rgba(255,255,255,.6);
+  color:
+    rgba(255,255,255,.6);
 
   font-size:14px;
+
   line-height:1.45;
 
   margin-bottom:20px;
 }
 
-/* DETAIL BUTTON */
+/* =========================================================
+   DETAIL BUTTON
+========================================================= */
 
 .detailBtn{
   padding:14px 23px;
 
-  border:0;
   border-radius:999px;
 
   background:#fff;
   color:#000;
 
   font-size:13px;
+
   font-weight:950;
 
   cursor:pointer;
 
-  transition:transform .18s ease;
+  transition:
+    transform .18s ease,
+    opacity .18s ease;
 }
 
 .detailBtn:active{
   transform:scale(.94);
 }
 
-/* DETAILS */
+/* =========================================================
+   DETAILS
+========================================================= */
 
 .details{
   width:min(650px,100%);
@@ -386,11 +449,13 @@ button,input,textarea{
 
   padding:0 17px;
 
-  border:1px solid transparent;
+  border:
+    1px solid transparent;
 
   border-radius:20px;
 
-  background:rgba(0,0,0,.48);
+  background:
+    rgba(0,0,0,.48);
 
   text-align:left;
 
@@ -405,7 +470,7 @@ button,input,textarea{
 }
 
 .card.showDetails .details{
-  max-height:min(310px,36vh);
+  max-height:min(320px,38vh);
 
   opacity:1;
 
@@ -415,7 +480,8 @@ button,input,textarea{
 
   transform:translateY(0);
 
-  border-color:rgba(255,255,255,.12);
+  border-color:
+    rgba(255,255,255,.12);
 
   overflow-y:auto;
 }
@@ -423,7 +489,8 @@ button,input,textarea{
 .detail{
   padding:9px 0;
 
-  border-bottom:1px solid rgba(255,255,255,.08);
+  border-bottom:
+    1px solid rgba(255,255,255,.08);
 }
 
 .detail:last-child{
@@ -431,7 +498,8 @@ button,input,textarea{
 }
 
 .detailLabel{
-  color:rgba(255,255,255,.45);
+  color:
+    rgba(255,255,255,.45);
 
   font-size:10px;
 
@@ -443,14 +511,17 @@ button,input,textarea{
 }
 
 .detailText{
-  color:rgba(255,255,255,.9);
+  color:
+    rgba(255,255,255,.9);
 
   font-size:14px;
 
   line-height:1.4;
 }
 
-/* ACTIONS */
+/* =========================================================
+   ACTIONS
+========================================================= */
 
 .actions{
   position:absolute;
@@ -476,9 +547,11 @@ button,input,textarea{
 
   border-radius:50%;
 
-  border:1px solid rgba(255,255,255,.11);
+  border:
+    1px solid rgba(255,255,255,.11);
 
-  background:rgba(0,0,0,.46);
+  background:
+    rgba(0,0,0,.46);
 
   backdrop-filter:blur(12px);
 
@@ -488,7 +561,9 @@ button,input,textarea{
 
   cursor:pointer;
 
-  transition:transform .18s ease;
+  transition:
+    transform .18s ease,
+    background .18s ease;
 }
 
 .action:active{
@@ -496,14 +571,18 @@ button,input,textarea{
 }
 
 .action.liked{
-  background:rgba(255,50,80,.2);
+  background:
+    rgba(255,50,80,.22);
 }
 
 .action.saved{
-  background:rgba(255,210,60,.2);
+  background:
+    rgba(255,210,60,.22);
 }
 
-/* EMPTY */
+/* =========================================================
+   EMPTY
+========================================================= */
 
 #empty{
   position:absolute;
@@ -535,10 +614,13 @@ button,input,textarea{
 }
 
 .emptyText{
-  color:rgba(255,255,255,.55);
+  color:
+    rgba(255,255,255,.55);
 }
 
-/* PROGRESS */
+/* =========================================================
+   PROGRESS
+========================================================= */
 
 .progress{
   position:absolute;
@@ -553,7 +635,8 @@ button,input,textarea{
 
   overflow:hidden;
 
-  background:rgba(255,255,255,.1);
+  background:
+    rgba(255,255,255,.1);
 
   z-index:50;
 }
@@ -566,10 +649,59 @@ button,input,textarea{
 
   border-radius:99px;
 
-  transition:width .35s ease;
+  transition:
+    width .35s ease;
 }
 
-/* MODAL */
+/* =========================================================
+   TOAST
+========================================================= */
+
+#toast{
+  position:fixed;
+
+  left:50%;
+  bottom:60px;
+
+  transform:
+    translate(-50%,20px);
+
+  z-index:999999;
+
+  padding:11px 17px;
+
+  border-radius:999px;
+
+  background:
+    rgba(15,15,15,.94);
+
+  border:
+    1px solid rgba(255,255,255,.12);
+
+  color:#fff;
+
+  font-size:13px;
+
+  font-weight:800;
+
+  opacity:0;
+  pointer-events:none;
+
+  transition:
+    opacity .25s ease,
+    transform .25s ease;
+}
+
+#toast.show{
+  opacity:1;
+
+  transform:
+    translate(-50%,0);
+}
+
+/* =========================================================
+   COMMENTS
+========================================================= */
 
 #modal{
   position:fixed;
@@ -578,9 +710,11 @@ button,input,textarea{
   z-index:5000;
 
   display:none;
+
   align-items:flex-end;
 
-  background:rgba(0,0,0,.7);
+  background:
+    rgba(0,0,0,.7);
 
   backdrop-filter:blur(8px);
 }
@@ -592,18 +726,24 @@ button,input,textarea{
 .commentBox{
   width:100%;
 
-  padding:20px;
+  padding:
+    20px
+    20px
+    calc(20px + env(safe-area-inset-bottom));
 
   background:#111;
 
-  border-radius:25px 25px 0 0;
+  border-radius:
+    25px 25px 0 0;
 
-  border:1px solid rgba(255,255,255,.1);
+  border:
+    1px solid rgba(255,255,255,.1);
 }
 
 .commentTitle{
   font-size:20px;
   font-weight:900;
+
   margin-bottom:15px;
 }
 
@@ -621,7 +761,8 @@ button,input,textarea{
   background:#050505;
   color:#fff;
 
-  border:1px solid rgba(255,255,255,.12);
+  border:
+    1px solid rgba(255,255,255,.12);
 }
 
 .commentButtons{
@@ -636,7 +777,6 @@ button,input,textarea{
 
   padding:13px;
 
-  border:0;
   border-radius:14px;
 
   font-weight:900;
@@ -654,13 +794,19 @@ button,input,textarea{
   color:#fff;
 }
 
-/* MOBILE */
+/* =========================================================
+   MOBILE
+========================================================= */
 
 @media(max-width:600px){
 
   .topbar{
-    height:70px;
-    padding:10px 12px;
+    min-height:70px;
+
+    padding:
+      calc(10px + env(safe-area-inset-top))
+      12px
+      10px;
   }
 
   .logo{
@@ -673,14 +819,20 @@ button,input,textarea{
   }
 
   .card{
-    padding:86px 66px 45px;
+    padding:
+      86px
+      66px
+      45px;
   }
 
   .trophy{
     width:78px;
     height:78px;
+
     font-size:45px;
+
     border-radius:24px;
+
     margin-bottom:13px;
   }
 
@@ -704,12 +856,14 @@ button,input,textarea{
   .actions{
     right:10px;
     bottom:80px;
+
     gap:9px;
   }
 
   .action{
     width:42px;
     height:42px;
+
     font-size:18px;
   }
 
@@ -725,7 +879,9 @@ button,input,textarea{
   .trophy{
     width:62px;
     height:62px;
+
     font-size:35px;
+
     margin-bottom:7px;
   }
 
@@ -758,11 +914,14 @@ button,input,textarea{
 
 <body>
 
-<!-- INTRO -->
+<!-- =====================================================
+     INTRO
+===================================================== -->
 
 <div id="intro">
   <div id="introName">Umut Ürper</div>
 </div>
+
 
 <div id="app">
 
@@ -796,15 +955,20 @@ button,input,textarea{
 
   </div>
 
+
   <div id="searchInfo"></div>
 
+
   <main id="feed"></main>
+
 
   <div id="empty">
 
     <div>
 
-      <div class="emptyIcon">🏆</div>
+      <div class="emptyIcon">
+        🏆
+      </div>
 
       <div class="emptyTitle">
         Rekor bulunamadı
@@ -818,14 +982,20 @@ button,input,textarea{
 
   </div>
 
+
   <div class="progress">
-    <div id="progressFill" class="progressFill"></div>
+    <div
+      id="progressFill"
+      class="progressFill">
+    </div>
   </div>
 
 </div>
 
 
-<!-- COMMENTS -->
+<!-- =====================================================
+     COMMENTS
+===================================================== -->
 
 <div id="modal">
 
@@ -838,21 +1008,20 @@ button,input,textarea{
     <textarea
       id="commentInput"
       placeholder="Bir şeyler yaz..."
+      maxlength="300"
     ></textarea>
 
     <div class="commentButtons">
 
       <button
         class="send"
-        id="sendComment"
-      >
+        id="sendComment">
         Gönder
       </button>
 
       <button
         class="close"
-        id="closeComment"
-      >
+        id="closeComment">
         Kapat
       </button>
 
@@ -863,18 +1032,22 @@ button,input,textarea{
 </div>
 
 
+<div id="toast"></div>
+
+
 <script>
 
-/* =====================================================
-   İÇERİK KAPASİTESİ
-===================================================== */
+/* =========================================================
+   REKORTOK MOTORU
+   20 MİLYON İÇERİK KAPASİTESİ
+========================================================= */
 
 const TOTAL_CONTENT = 20000000;
 
 
-/* =====================================================
+/* =========================================================
    DURUM
-===================================================== */
+========================================================= */
 
 let currentIndex = 0;
 
@@ -886,458 +1059,567 @@ let searchResults = [];
 
 let searchIndex = 0;
 
+let liked = new Set();
 
-/* =====================================================
-   REKORLAR
-===================================================== */
+let saved = new Set();
+
+
+/* =========================================================
+   GERÇEK TEMEL REKOR VERİLERİ
+========================================================= */
 
 const records = [
 
 {
-  title:"En hızlı kara hayvanı",
-  icon:"🐆",
-  type:"HAYVAN REKORLARI",
-  question:"Karada en yüksek hıza ulaşabilen hayvan hangisi?",
-  record:"Çita.",
-  detail:"Çitalar kısa mesafelerde yaklaşık 100 km/sa veya daha yüksek hızlara ulaşabilir.",
-  holder:"Çita",
-  category:"Hayvanlar",
-  fact:"Bu yüksek hızını uzun süre korumak yerine kısa süreli hızlanmalarda kullanır."
+ title:"En hızlı kara hayvanı",
+ icon:"🐆",
+ type:"HAYVAN REKORLARI",
+ question:"Karada en yüksek hıza ulaşabilen hayvan hangisi?",
+ record:"Çita.",
+ detail:"Çitalar kısa mesafelerde yaklaşık 100 km/sa veya daha yüksek hızlara ulaşabilir.",
+ holder:"Çita",
+ category:"Hayvanlar",
+ fact:"Bu yüksek hız uzun süreli koşudan çok kısa süreli hızlanmalarda kullanılır."
 },
 
 {
-  title:"En uzun yaşayan hayvanlardan biri",
-  icon:"🐋",
-  type:"YAŞAM REKORLARI",
-  question:"Bazı balinalar kaç yılın üzerinde yaşayabilir?",
-  record:"200 yılın üzerinde.",
-  detail:"Grönland balinası çok uzun ömürlü memeliler arasında yer alır.",
-  holder:"Grönland balinası",
-  category:"Hayvanlar",
-  fact:"Bazı bireylerin iki yüzyılı aşan yaşlara ulaşabildiğine dair bilimsel kanıtlar vardır."
+ title:"En uzun yaşayan memelilerden biri",
+ icon:"🐋",
+ type:"YAŞAM REKORLARI",
+ question:"Bazı balinalar iki yüzyıldan fazla yaşayabilir mi?",
+ record:"Evet.",
+ detail:"Grönland balinaları çok uzun ömürlü memeliler arasında yer alır.",
+ holder:"Grönland balinası",
+ category:"Hayvanlar",
+ fact:"Bazı bireylerin 200 yıldan fazla yaşadığına dair bilimsel kanıtlar vardır."
 },
 
 {
-  title:"Dünyanın en yüksek dağı",
-  icon:"🏔️",
-  type:"DOĞA REKORLARI",
-  question:"Deniz seviyesine göre dünyanın en yüksek dağı hangisi?",
-  record:"Everest.",
-  detail:"Everest'in zirvesi deniz seviyesinden yaklaşık 8.849 metre yüksektedir.",
-  holder:"Everest",
-  category:"Dağlar",
-  fact:"Yüksekliği ölçüm yöntemlerine göre küçük farklılıklarla ifade edilebilir."
+ title:"Dünyanın en yüksek dağı",
+ icon:"🏔️",
+ type:"DOĞA REKORLARI",
+ question:"Deniz seviyesine göre dünyanın en yüksek dağı hangisi?",
+ record:"Everest.",
+ detail:"Everest'in zirvesi deniz seviyesinden yaklaşık 8.849 metre yüksektedir.",
+ holder:"Everest",
+ category:"Dağlar",
+ fact:"Dağın yüksekliği kullanılan ölçüm yöntemine göre küçük farklılıklarla ifade edilebilir."
 },
 
 {
-  title:"En derin okyanus noktası",
-  icon:"🌊",
-  type:"OKYANUS REKORLARI",
-  question:"Dünya üzerindeki bilinen en derin deniz noktası neresi?",
-  record:"Challenger Deep.",
-  detail:"Mariana Çukuru'nun içindeki Challenger Deep, yaklaşık 11 kilometrelik derinliğiyle bilinir.",
-  holder:"Mariana Çukuru",
-  category:"Okyanus",
-  fact:"Bölgedeki basınç yüzeydeki atmosfer basıncının yüzlerce katına ulaşabilir."
+ title:"En derin okyanus noktası",
+ icon:"🌊",
+ type:"OKYANUS REKORLARI",
+ question:"Dünya üzerindeki bilinen en derin deniz noktası neresi?",
+ record:"Challenger Deep.",
+ detail:"Mariana Çukuru'nun içindeki Challenger Deep yaklaşık 11 kilometrelik derinliğiyle bilinir.",
+ holder:"Mariana Çukuru",
+ category:"Okyanus",
+ fact:"Bu derinlikteki basınç yüzeydeki atmosfer basıncının yüzlerce katına çıkabilir."
 },
 
 {
-  title:"En büyük kara hayvanı",
-  icon:"🐘",
-  type:"HAYVAN REKORLARI",
-  question:"Günümüzde yaşayan en büyük kara hayvanı hangisi?",
-  record:"Afrika savan fili.",
-  detail:"Yetişkin erkek Afrika filleri birkaç ton ağırlığa ulaşabilir.",
-  holder:"Afrika fili",
-  category:"Hayvanlar",
-  fact:"Filin hortumu hem nefes alma hem beslenme hem de iletişim gibi birçok işlevde kullanılır."
+ title:"En büyük kara hayvanı",
+ icon:"🐘",
+ type:"HAYVAN REKORLARI",
+ question:"Günümüzde yaşayan en büyük kara hayvanı hangisi?",
+ record:"Afrika savan fili.",
+ detail:"Yetişkin erkek Afrika filleri birkaç ton ağırlığa ulaşabilir.",
+ holder:"Afrika fili",
+ category:"Hayvanlar",
+ fact:"Filin hortumu nefes alma, beslenme ve iletişim gibi birçok işlevde kullanılır."
 },
 
 {
-  title:"En büyük hayvan",
-  icon:"🐋",
-  type:"HAYVAN REKORLARI",
-  question:"Dünya üzerinde yaşamış en büyük hayvan hangisidir?",
-  record:"Mavi balina.",
-  detail:"Mavi balinalar 30 metreyi aşabilen uzunluklara ve 100 tonun üzerinde ağırlıklara ulaşabilir.",
-  holder:"Mavi balina",
-  category:"Hayvanlar",
-  fact:"Kalbi küçük bir otomobil büyüklüğüne yaklaşabilecek kadar büyüktür."
+ title:"Dünyanın en büyük hayvanı",
+ icon:"🐋",
+ type:"HAYVAN REKORLARI",
+ question:"Dünya üzerinde yaşamış en büyük hayvan hangisidir?",
+ record:"Mavi balina.",
+ detail:"Mavi balinalar 30 metreyi aşabilen uzunluklara ve 100 tonun üzerinde ağırlıklara ulaşabilir.",
+ holder:"Mavi balina",
+ category:"Hayvanlar",
+ fact:"Kalbi çok büyük bir yapıya sahiptir."
 },
 
 {
-  title:"En hızlı kuş",
-  icon:"🦅",
-  type:"HIZ REKORLARI",
-  question:"Dalış sırasında en yüksek hıza ulaşabilen kuş hangisi?",
-  record:"Gökdoğan.",
-  detail:"Gökdoğan dalış sırasında 300 km/sa'in üzerinde hızlara ulaşabilir.",
-  holder:"Gökdoğan",
-  category:"Kuşlar",
-  fact:"Bu hız düz uçuş hızından çok daha yüksektir."
+ title:"En hızlı dalış yapan kuş",
+ icon:"🦅",
+ type:"HIZ REKORLARI",
+ question:"Dalış sırasında en yüksek hıza ulaşabilen kuş hangisi?",
+ record:"Gökdoğan.",
+ detail:"Gökdoğan dalış sırasında 300 km/sa'in üzerinde hızlara ulaşabilir.",
+ holder:"Gökdoğan",
+ category:"Kuşlar",
+ fact:"Bu hız düz uçuş hızından çok daha yüksektir."
 },
 
 {
-  title:"En büyük okyanus",
-  icon:"🌊",
-  type:"DÜNYA REKORLARI",
-  question:"Dünyanın yüzeyinin en büyük bölümünü hangi okyanus kaplar?",
-  record:"Pasifik Okyanusu.",
-  detail:"Pasifik, Dünya'nın en büyük ve en derin okyanusudur.",
-  holder:"Pasifik Okyanusu",
-  category:"Coğrafya",
-  fact:"Dünya üzerindeki çok sayıda ada ve derin okyanus çukuru burada bulunur."
+ title:"Dünyanın en büyük okyanusu",
+ icon:"🌊",
+ type:"DÜNYA REKORLARI",
+ question:"Dünyanın en büyük okyanusu hangisi?",
+ record:"Pasifik Okyanusu.",
+ detail:"Pasifik, Dünya'nın en büyük ve en derin okyanusudur.",
+ holder:"Pasifik Okyanusu",
+ category:"Coğrafya",
+ fact:"Dünya üzerindeki çok sayıda ada ve derin okyanus çukuru burada bulunur."
 },
 
 {
-  title:"En büyük çöl",
-  icon:"🏜️",
-  type:"COĞRAFYA REKORLARI",
-  question:"Dünyanın yüzölçümü bakımından en büyük çölü hangisi?",
-  record:"Antarktika.",
-  detail:"Çöl tanımı yalnızca sıcak bölgeler için kullanılmaz; Antarktika da aşırı kuraklığı nedeniyle kutup çölüdür.",
-  holder:"Antarktika",
-  category:"Coğrafya",
-  fact:"Dünyadaki tatlı suyun büyük bölümü buz hâlinde Antarktika'da bulunur."
+ title:"Dünyanın en büyük adası",
+ icon:"🏝️",
+ type:"COĞRAFYA REKORLARI",
+ question:"Avustralya kıta kabul edildiğinde dünyanın en büyük adası hangisi?",
+ record:"Grönland.",
+ detail:"Grönland, Avustralya kıta olarak kabul edildiği için dünyanın en büyük adasıdır.",
+ holder:"Grönland",
+ category:"Adalar",
+ fact:"Adanın büyük bölümü buz tabakasıyla kaplıdır."
 },
 
 {
-  title:"En büyük sıcak çöl",
-  icon:"🏜️",
-  type:"COĞRAFYA REKORLARI",
-  question:"Dünyanın en büyük sıcak çölü hangisi?",
-  record:"Sahra Çölü.",
-  detail:"Sahra, Kuzey Afrika'nın çok büyük bir bölümünü kaplar.",
-  holder:"Sahra Çölü",
-  category:"Coğrafya",
-  fact:"Sahra'nın iklimi ve sınırları uzun zaman ölçeklerinde değişebilir."
+ title:"En derin göl",
+ icon:"🏞️",
+ type:"COĞRAFYA REKORLARI",
+ question:"Dünyanın en derin gölü hangisi?",
+ record:"Baykal Gölü.",
+ detail:"Rusya'daki Baykal Gölü yaklaşık 1.642 metre derinliğe ulaşır.",
+ holder:"Baykal Gölü",
+ category:"Göller",
+ fact:"Baykal dünyanın en eski göllerinden biri olarak kabul edilir."
 },
 
 {
-  title:"En uzun nehir tartışması",
-  icon:"🏞️",
-  type:"COĞRAFYA REKORLARI",
-  question:"Nil ve Amazon arasında hangi nehrin daha uzun olduğu tartışmalıdır.",
-  record:"Nil veya Amazon.",
-  detail:"Ölçümün hangi kaynaktan başlatıldığı ve nehrin nasıl tanımlandığı sonuçları değiştirebilir.",
-  holder:"Nil / Amazon",
-  category:"Nehirler",
-  fact:"Nehir uzunluğu ölçümleri kullanılan yönteme göre farklı sonuçlar verebilir."
+ title:"En büyük sıcak çöl",
+ icon:"🏜️",
+ type:"COĞRAFYA REKORLARI",
+ question:"Dünyanın en büyük sıcak çölü hangisi?",
+ record:"Sahra Çölü.",
+ detail:"Sahra Kuzey Afrika'nın çok büyük bir bölümünü kaplar.",
+ holder:"Sahra Çölü",
+ category:"Çöller",
+ fact:"Sahra'nın iklimi uzun zaman ölçeklerinde değişebilir."
 },
 
 {
-  title:"En büyük ada",
-  icon:"🏝️",
-  type:"COĞRAFYA REKORLARI",
-  question:"Avustralya kıta kabul edildiğinde dünyanın en büyük adası hangisidir?",
-  record:"Grönland.",
-  detail:"Grönland, Avustralya kıta olarak kabul edildiği için dünyanın en büyük adasıdır.",
-  holder:"Grönland",
-  category:"Adalar",
-  fact:"Adanın çok büyük bölümü buz tabakasıyla kaplıdır."
+ title:"Dünyanın en büyük çölü",
+ icon:"❄️",
+ type:"COĞRAFYA REKORLARI",
+ question:"Yüzölçümü bakımından dünyanın en büyük çölü hangisi?",
+ record:"Antarktika.",
+ detail:"Çöl tanımı yalnızca sıcak bölgeler için kullanılmaz. Antarktika kutup çölüdür.",
+ holder:"Antarktika",
+ category:"Çöller",
+ fact:"Dünyadaki tatlı suyun çok büyük bölümü burada buz şeklindedir."
 },
 
 {
-  title:"En büyük okyanus canlılarından biri",
-  icon:"🦑",
-  type:"DENİZ REKORLARI",
-  question:"Dev kalamarlar ne kadar büyüyebilir?",
-  record:"10 metreyi aşabilir.",
-  detail:"Dev kalamarlar hakkında gözlemler sınırlıdır ve ölçülen örnekler arasında farklılıklar bulunur.",
-  holder:"Dev kalamar",
-  category:"Deniz canlıları",
-  fact:"Gözleri hayvanlar âlemindeki en büyük gözler arasında yer alır."
+ title:"En büyük çiçeklerden biri",
+ icon:"🌺",
+ type:"BİTKİ REKORLARI",
+ question:"Bir metreyi aşabilen dev çiçeklerden biri hangisi?",
+ record:"Rafflesia.",
+ detail:"Rafflesia türleri çok büyük çiçekleriyle tanınır.",
+ holder:"Rafflesia",
+ category:"Bitkiler",
+ fact:"Bazı türleri tozlaştırıcıları çekmek için güçlü koku üretir."
 },
 
 {
-  title:"En yüksek şelalelerden biri",
-  icon:"💧",
-  type:"DOĞA REKORLARI",
-  question:"Dünyanın en yüksek kesintisiz şelalesi hangisidir?",
-  record:"Angel Şelalesi.",
-  detail:"Venezuela'daki Angel Şelalesi yaklaşık 979 metre toplam yüksekliğe sahiptir.",
-  holder:"Angel Şelalesi",
-  category:"Şelaleler",
-  fact:"Şelalenin suyu çok yüksekten düştüğü için aşağıya ulaşmadan önce yoğun biçimde dağılıp sis oluşturabilir."
+ title:"En yüksek bina",
+ icon:"🏙️",
+ type:"YAPI REKORLARI",
+ question:"Dünyanın en yüksek binası hangisi?",
+ record:"Burj Khalifa.",
+ detail:"Dubai'deki Burj Khalifa'nın mimari yüksekliği 828 metredir.",
+ holder:"Burj Khalifa",
+ category:"Mimari",
+ fact:"Bina 2010 yılında resmi olarak açılmıştır."
 },
 
 {
-  title:"En yüksek sıcaklık rekoru",
-  icon:"🌡️",
-  type:"İKLİM REKORLARI",
-  question:"Dünya üzerinde ölçülen en yüksek hava sıcaklıkları hangi bölgelerde kaydedildi?",
-  record:"Çok sıcak çöl bölgelerinde.",
-  detail:"Ölçüm istasyonu, yöntem ve kayıt doğrulaması sıcaklık rekorlarının değerlendirilmesinde önemlidir.",
-  holder:"Çöl bölgeleri",
-  category:"İklim",
-  fact:"Dünya sıcaklık rekorları ölçüm standartlarıyla birlikte değerlendirilir."
+ title:"En büyük yolcu uçaklarından biri",
+ icon:"✈️",
+ type:"HAVACILIK REKORLARI",
+ question:"Dünyanın en büyük yolcu uçaklarından biri hangisi?",
+ record:"Airbus A380.",
+ detail:"A380 iki tam boy yolcu güvertesine sahip büyük bir yolcu uçağıdır.",
+ holder:"Airbus A380",
+ category:"Havacılık",
+ fact:"Uçak yüzlerce yolcu taşıyabilecek şekilde yapılandırılabilir."
 },
 
 {
-  title:"En uzun yaşayan ağaçlardan biri",
-  icon:"🌳",
-  type:"BİTKİ REKORLARI",
-  question:"Binlerce yıl yaşayabilen ağaçlar var mı?",
-  record:"Evet.",
-  detail:"Bazı bristlecone çamları binlerce yıllık yaşlara ulaşabilir.",
-  holder:"Bristlecone çamı",
-  category:"Bitkiler",
-  fact:"Bazı örneklerin yaşı birkaç bin yıla ulaşmaktadır."
+ title:"En küçük kuş",
+ icon:"🐦",
+ type:"HAYVAN REKORLARI",
+ question:"Dünyanın en küçük kuşu hangisi?",
+ record:"Arı sinek kuşu.",
+ detail:"Küba'ya özgü bu sinek kuşu yalnızca birkaç santimetre boyundadır.",
+ holder:"Arı sinek kuşu",
+ category:"Kuşlar",
+ fact:"Ağırlığı birkaç gram civarında olabilir."
 },
 
 {
-  title:"En büyük çiçeklerden biri",
-  icon:"🌺",
-  type:"BİTKİ REKORLARI",
-  question:"Dünyanın en büyük tek çiçeklerinden biri hangisi?",
-  record:"Rafflesia.",
-  detail:"Rafflesia türleri bir metreyi aşabilen çaplarıyla dikkat çeker.",
-  holder:"Rafflesia",
-  category:"Bitkiler",
-  fact:"Bazı türleri tozlaşma için sinekleri çeken güçlü bir koku üretir."
+ title:"En büyük mercan sistemi",
+ icon:"🪸",
+ type:"DOĞA REKORLARI",
+ question:"Dünyanın en büyük mercan resif sistemi hangisi?",
+ record:"Büyük Set Resifi.",
+ detail:"Avustralya açıklarındaki Büyük Set Resifi binlerce resif ve adacıktan oluşur.",
+ holder:"Büyük Set Resifi",
+ category:"Deniz ekosistemleri",
+ fact:"Çok geniş bir alana yayılan karmaşık bir ekosistemdir."
 },
 
 {
-  title:"En hızlı büyüyen bitkiler",
-  icon:"🎋",
-  type:"BİTKİ REKORLARI",
-  question:"Bazı bambular ne kadar hızlı büyüyebilir?",
-  record:"Uygun koşullarda günde onlarca santimetre.",
-  detail:"Bambu türleri arasında büyüme hızları ciddi şekilde değişir.",
-  holder:"Bazı bambu türleri",
-  category:"Bitkiler",
-  fact:"Bambular aslında çim ailesinin üyeleridir."
+ title:"En yüksek şelalelerden biri",
+ icon:"💧",
+ type:"DOĞA REKORLARI",
+ question:"Dünyanın en yüksek kesintisiz şelalesi hangisi?",
+ record:"Angel Şelalesi.",
+ detail:"Venezuela'daki Angel Şelalesi yaklaşık 979 metre toplam yüksekliğe sahiptir.",
+ holder:"Angel Şelalesi",
+ category:"Şelaleler",
+ fact:"Suyun bir bölümü yere ulaşmadan havada parçalanıp sis oluşturabilir."
 },
 
 {
-  title:"En yüksek insan yapısı",
-  icon:"🏙️",
-  type:"YAPI REKORLARI",
-  question:"Günümüzde dünyanın en yüksek binası hangisi?",
-  record:"Burj Khalifa.",
-  detail:"Dubai'deki Burj Khalifa'nın mimari yüksekliği 828 metredir.",
-  holder:"Burj Khalifa",
-  category:"Mimari",
-  fact:"Bina 2010 yılında resmi olarak açılmıştır."
+ title:"En büyük göl",
+ icon:"🌊",
+ type:"COĞRAFYA REKORLARI",
+ question:"Yüzölçümü bakımından dünyanın en büyük gölü hangisi?",
+ record:"Hazar Denizi.",
+ detail:"Hazar Denizi adında deniz kelimesi bulunsa da kapalı bir su kütlesidir.",
+ holder:"Hazar Denizi",
+ category:"Göller",
+ fact:"Yüzölçümü bakımından dünyanın en büyük kapalı su kütlesidir."
 },
 
 {
-  title:"En uzun köprülerden biri",
-  icon:"🌉",
-  type:"MÜHENDİSLİK REKORLARI",
-  question:"Dünyanın en uzun köprüleri ne kadar uzun olabilir?",
-  record:"Onlarca kilometre.",
-  detail:"Köprü uzunluğu hangi bölümün ölçüldüğüne göre farklı şekillerde sınıflandırılabilir.",
-  holder:"Çeşitli uzun köprüler",
-  category:"Mühendislik",
-  fact:"Bazı köprüler kara yerine geniş su veya sulak alanların üzerinden geçer."
+ title:"En hızlı büyüyen bitkilerden biri",
+ icon:"🎋",
+ type:"BİTKİ REKORLARI",
+ question:"Bazı bambu türleri çok hızlı büyüyebilir mi?",
+ record:"Evet.",
+ detail:"Bazı bambu türleri uygun koşullarda günde onlarca santimetre büyüyebilir.",
+ holder:"Bazı bambu türleri",
+ category:"Bitkiler",
+ fact:"Bambular aslında çim ailesinin üyeleridir."
 },
 
 {
-  title:"En büyük yolcu uçağı",
-  icon:"✈️",
-  type:"HAVACILIK REKORLARI",
-  question:"Dünyanın en büyük yolcu uçaklarından biri hangisi?",
-  record:"Airbus A380.",
-  detail:"A380 iki tam boy yolcu güvertesine sahip çok büyük bir yolcu uçağıdır.",
-  holder:"Airbus A380",
-  category:"Havacılık",
-  fact:"Dört motorlu uçak, tam dolu yapılandırmalarda yüzlerce yolcu taşıyabilir."
-},
-
-{
-  title:"En hızlı kara taşıtlarından biri",
-  icon:"🏎️",
-  type:"HIZ REKORLARI",
-  question:"Özel tasarlanmış kara araçları ne kadar hızlı olabilir?",
-  record:"1.000 km/sa'in üzerine çıkabilir.",
-  detail:"Jet motorlu kara araçları geleneksel otomobillerden tamamen farklı tasarımlara sahiptir.",
-  holder:"Özel hız araçları",
-  category:"Otomotiv",
-  fact:"Bu araçlar günlük kullanım için değil, hız rekoru denemeleri için tasarlanır."
-},
-
-{
-  title:"En büyük yolcu gemilerinden biri",
-  icon:"🛳️",
-  type:"DENİZCİLİK REKORLARI",
-  question:"Modern yolcu gemileri küçük şehirler kadar büyük olabilir mi?",
-  record:"Evet.",
-  detail:"En büyük yolcu gemileri binlerce yolcu ve mürettebat taşıyabilir.",
-  holder:"Modern yolcu gemileri",
-  category:"Denizcilik",
-  fact:"Bazılarında restoranlar, tiyatrolar, havuzlar ve eğlence alanları bulunur."
-},
-
-{
-  title:"En derin göl",
-  icon:"🏞️",
-  type:"COĞRAFYA REKORLARI",
-  question:"Dünyanın en derin gölü hangisi?",
-  record:"Baykal Gölü.",
-  detail:"Rusya'daki Baykal Gölü yaklaşık 1.642 metre derinliğe ulaşır.",
-  holder:"Baykal Gölü",
-  category:"Göller",
-  fact:"Aynı zamanda dünyanın en eski göllerinden biri olarak kabul edilir."
-},
-
-{
-  title:"En büyük göl",
-  icon:"🌊",
-  type:"COĞRAFYA REKORLARI",
-  question:"Yüzölçümü bakımından dünyanın en büyük gölü hangisi?",
-  record:"Hazar Denizi.",
-  detail:"Adında deniz geçmesine rağmen coğrafi olarak kapalı bir su kütlesidir.",
-  holder:"Hazar Denizi",
-  category:"Göller",
-  fact:"Yüzölçümü bakımından dünyanın en büyük kapalı su kütlesidir."
-},
-
-{
-  title:"En küçük kuş",
-  icon:"🐦",
-  type:"HAYVAN REKORLARI",
-  question:"Dünyanın en küçük kuşu hangisi?",
-  record:"Arı sinek kuşu.",
-  detail:"Küba'ya özgü bu sinek kuşu yalnızca birkaç santimetre boyundadır.",
-  holder:"Arı sinek kuşu",
-  category:"Kuşlar",
-  fact:"Ağırlığı bazı böceklerden bile daha düşük olabilir."
-},
-
-{
-  title:"En büyük kara yırtıcılarından biri",
-  icon:"🐻",
-  type:"HAYVAN REKORLARI",
-  question:"Karadaki en büyük etçil memeliler arasında hangileri bulunur?",
-  record:"Kutup ayısı ve Kodiak ayısı.",
-  detail:"Boyutlar bireye, yaşa ve cinsiyete göre değişir.",
-  holder:"Büyük ayı türleri",
-  category:"Hayvanlar",
-  fact:"Kutup ayıları özellikle denizel besin kaynaklarına bağımlıdır."
-},
-
-{
-  title:"En uzun hayvanlardan biri",
-  icon:"🪼",
-  type:"DENİZ REKORLARI",
-  question:"Denizlerde çok uzun canlılar bulunabilir mi?",
-  record:"Evet.",
-  detail:"Bazı sifonofor kolonileri çok uzun yapılara ulaşabilir.",
-  holder:"Sifonoforlar",
-  category:"Deniz canlıları",
-  fact:"Sifonoforlar tek bir hayvan gibi görünse de çok sayıda özelleşmiş bireyin oluşturduğu kolonilerdir."
-},
-
-{
-  title:"En büyük mercan sistemi",
-  icon:"🪸",
-  type:"DOĞA REKORLARI",
-  question:"Dünyanın en büyük mercan resif sistemi hangisi?",
-  record:"Büyük Set Resifi.",
-  detail:"Avustralya açıklarındaki Büyük Set Resifi binlerce ayrı resif ve adacıktan oluşur.",
-  holder:"Büyük Set Resifi",
-  category:"Deniz ekosistemleri",
-  fact:"Uzaydan görülebilecek kadar büyük olduğu sıkça belirtilse de görünürlüğü koşullara bağlıdır."
+ title:"En hızlı kara araçları",
+ icon:"🏎️",
+ type:"HIZ REKORLARI",
+ question:"Özel tasarlanmış kara araçları 1.000 km/sa'i aşabilir mi?",
+ record:"Evet.",
+ detail:"Jet motorlu özel kara araçları hız rekoru denemeleri için tasarlanır.",
+ holder:"Özel hız araçları",
+ category:"Otomotiv",
+ fact:"Bu araçlar günlük kullanım için tasarlanmış otomobiller değildir."
 }
 
 ];
 
 
-/* =====================================================
-   NORMALIZE
-===================================================== */
+/* =========================================================
+   EK KATEGORİLER
+========================================================= */
 
-function normalize(text){
+const categories=[
+  "HAYVANLAR",
+  "DOĞA",
+  "COĞRAFYA",
+  "UZAY",
+  "DENİZLER",
+  "BİLİM",
+  "YAPILAR",
+  "HAVACILIK",
+  "MÜHENDİSLİK",
+  "BİTKİLER"
+];
 
-  return String(text || "")
-    .toLocaleLowerCase("tr-TR")
-    .replace(/ı/g,"i")
-    .replace(/ğ/g,"g")
-    .replace(/ü/g,"u")
-    .replace(/ş/g,"s")
-    .replace(/ö/g,"o")
-    .replace(/ç/g,"c")
-    .normalize("NFD")
-    .replace(/[\u0300-\u036f]/g,"")
-    .replace(/\s+/g," ")
-    .trim();
 
+const generatedTopics=[
+  "doğal oluşum",
+  "hayvan",
+  "kuş",
+  "deniz canlısı",
+  "bitki",
+  "dağ",
+  "göl",
+  "ada",
+  "şelale",
+  "yapı",
+  "mühendislik yapısı",
+  "hava olayı",
+  "uzay olayı",
+  "doğal alan",
+  "ekosistem"
+];
+
+
+const generatedIcons=[
+  "🏆",
+  "🌍",
+  "🌊",
+  "🏔️",
+  "🐘",
+  "🦅",
+  "🐋",
+  "🌳",
+  "🏙️",
+  "🚀",
+  "✈️",
+  "🪸"
+];
+
+
+/* =========================================================
+   RENK TEMALARI
+========================================================= */
+
+const themes=[
+  ["#120d02","#070604"],
+  ["#071b2c","#103b52"],
+  ["#211007","#57220d"],
+  ["#160a2d","#3c176b"],
+  ["#071e17","#104f3a"],
+  ["#171717","#3d3d3d"],
+  ["#201408","#654016"],
+  ["#081b28","#123f63"]
+];
+
+
+/* =========================================================
+   DETERMINISTIK RASTGELE
+========================================================= */
+
+function hash(seed){
+
+  let x =
+    Math.imul(
+      seed ^ 0x6D2B79F5,
+      2654435761
+    );
+
+  x ^=
+    x >>> 16;
+
+  x =
+    Math.imul(
+      x,
+      2246822507
+    );
+
+  x ^=
+    x >>> 13;
+
+  x =
+    Math.imul(
+      x,
+      3266489909
+    );
+
+  x ^=
+    x >>> 16;
+
+  return (
+    x >>> 0
+  ) /
+  4294967296;
 }
 
 
-/* =====================================================
-   ARAMA
-===================================================== */
+function pick(array,seed){
 
-function searchRecords(query){
-
-  const q=normalize(query);
-
-  if(!q) return [];
-
-  const exact=[];
-  const starts=[];
-  const contains=[];
-  const other=[];
-
-  records.forEach(record=>{
-
-    const title=normalize(record.title);
-
-    const searchable=normalize([
-      record.title,
-      record.type,
-      record.question,
-      record.record,
-      record.detail,
-      record.holder,
-      record.category,
-      record.fact
-    ].join(" "));
-
-
-    if(title===q){
-
-      exact.push(record);
-
-    }else if(title.startsWith(q)){
-
-      starts.push(record);
-
-    }else if(title.includes(q)){
-
-      contains.push(record);
-
-    }else if(searchable.includes(q)){
-
-      other.push(record);
-
-    }
-
-  });
-
-
-  return [
-    ...exact,
-    ...starts,
-    ...contains,
-    ...other
+  return array[
+    Math.floor(
+      hash(seed) *
+      array.length
+    )
   ];
 
 }
 
 
-/* =====================================================
-   CARD
-===================================================== */
+/* =========================================================
+   20 MİLYONLUK İÇERİK ÜRETİCİ
+========================================================= */
 
-function createCard(record){
+function generateContent(index){
+
+  /*
+    Temel doğrulanabilir rekorlar.
+  */
+
+  if(
+    index <
+    records.length
+  ){
+
+    return {
+      ...records[index],
+      index
+    };
+
+  }
+
+
+  /*
+    20 milyon kapasitenin geri kalan kısmı
+    deterministik içerik kombinasyonlarıdır.
+
+    Burada gerçek bir rekoru rastgele uydurmak
+    yerine "rekor keşfi" formatı kullanıyoruz.
+  */
+
+  const category=
+    pick(
+      categories,
+      index*17+3
+    );
+
+
+  const topic=
+    pick(
+      generatedTopics,
+      index*29+7
+    );
+
+
+  const icon=
+    pick(
+      generatedIcons,
+      index*43+11
+    );
+
+
+  const variants=[
+    "ölçek",
+    "dayanıklılık",
+    "hız",
+    "yükseklik",
+    "derinlik",
+    "uzunluk",
+    "büyüklük",
+    "yaşam süresi"
+  ];
+
+
+  const variant=
+    pick(
+      variants,
+      index*59+13
+    );
+
+
+  const adjectives=[
+    "olağanüstü",
+    "dikkat çekici",
+    "sıra dışı",
+    "devasa",
+    "çok yüksek",
+    "çok derin",
+    "çok uzun",
+    "çok hızlı"
+  ];
+
+
+  const adjective=
+    pick(
+      adjectives,
+      index*71+19
+    );
+
+
+  return {
+
+    title:
+      `${adjective} ${topic} rekoru`,
+
+    icon,
+
+    type:
+      `${category} REKORLARI`,
+
+    question:
+      `${topic} alanında ${variant} açısından dikkat çeken rekor türü nedir?`,
+
+    record:
+      "Rekor keşfi",
+
+    detail:
+      "Bu içerik, RekorTok'un geniş içerik üretim sistemindeki keşif kartlarından biridir. Kesin sayısal değerler için ilgili resmi rekor kaynağı ayrıca doğrulanmalıdır.",
+
+    holder:
+      `${topic} alanındaki örnek`,
+
+    category,
+
+    fact:
+      `Bu kart, ${category.toLocaleLowerCase("tr-TR")} kategorisinde ${variant} temasını işler.`,
+
+    generated:true,
+
+    index
+
+  };
+
+}
+
+
+/* =========================================================
+   HTML GÜVENLİĞİ
+========================================================= */
+
+function escapeHTML(value){
+
+  return String(value)
+    .replaceAll("&","&amp;")
+    .replaceAll("<","&lt;")
+    .replaceAll(">","&gt;")
+    .replaceAll('"',"&quot;")
+    .replaceAll("'","&#039;");
+
+}
+
+
+/* =========================================================
+   KART OLUŞTUR
+========================================================= */
+
+function createCard(record,index){
 
   const card=
     document.createElement("section");
 
-  card.className="card";
+
+  card.className=
+    "card";
+
+
+  const theme=
+    themes[
+      index %
+      themes.length
+    ];
+
+
+  card.style.background=
+    `radial-gradient(
+      circle at 50% 30%,
+      rgba(255,190,50,.08),
+      transparent 35%
+    ),
+    linear-gradient(
+      145deg,
+      ${theme[0]},
+      ${theme[1]}
+    )`;
 
 
   card.innerHTML=`
@@ -1345,19 +1627,19 @@ function createCard(record){
     <div class="content">
 
       <div class="trophy">
-        ${record.icon}
+        ${escapeHTML(record.icon)}
       </div>
 
       <div class="recordType">
-        ${record.type}
+        ${escapeHTML(record.type)}
       </div>
 
       <h1 class="recordTitle">
-        ${record.title}
+        ${escapeHTML(record.title)}
       </h1>
 
       <div class="recordQuestion">
-        ${record.question}
+        ${escapeHTML(record.question)}
       </div>
 
       <div class="recordSub">
@@ -1366,51 +1648,58 @@ function createCard(record){
 
       <button
         class="detailBtn"
-        type="button"
-      >
+        type="button">
         REKORU GÖR
       </button>
 
       <div class="details">
 
         <div class="detail">
+
           <div class="detailLabel">
             🏆 REKOR
           </div>
 
           <div class="detailText">
-            ${record.record}
+            ${escapeHTML(record.record)}
           </div>
+
         </div>
 
         <div class="detail">
+
           <div class="detailLabel">
             👤 REKOR SAHİBİ
           </div>
 
           <div class="detailText">
-            ${record.holder}
+            ${escapeHTML(record.holder)}
           </div>
+
         </div>
 
         <div class="detail">
+
           <div class="detailLabel">
             📚 AYRINTI
           </div>
 
           <div class="detailText">
-            ${record.detail}
+            ${escapeHTML(record.detail)}
           </div>
+
         </div>
 
         <div class="detail">
+
           <div class="detailLabel">
             💡 ŞAŞIRTICI BİLGİ
           </div>
 
           <div class="detailText">
-            ${record.fact}
+            ${escapeHTML(record.fact)}
           </div>
+
         </div>
 
       </div>
@@ -1420,19 +1709,27 @@ function createCard(record){
 
     <div class="actions">
 
-      <button class="action like">
+      <button
+        class="action like"
+        type="button">
         ❤️
       </button>
 
-      <button class="action comment">
+      <button
+        class="action comment"
+        type="button">
         💬
       </button>
 
-      <button class="action save">
+      <button
+        class="action save"
+        type="button">
         ⭐
       </button>
 
-      <button class="action share">
+      <button
+        class="action share"
+        type="button">
         ↗
       </button>
 
@@ -1440,67 +1737,118 @@ function createCard(record){
   `;
 
 
-  /* DETAY */
-
-  card
-    .querySelector(".detailBtn")
-    .addEventListener(
-      "click",
-      e=>{
-
-        e.stopPropagation();
-
-        const open=
-          card.classList.toggle(
-            "showDetails"
-          );
-
-        e.currentTarget.textContent=
-          open
-          ? "REKORU GİZLE"
-          : "REKORU GÖR";
-
-      }
+  const detailBtn=
+    card.querySelector(
+      ".detailBtn"
     );
 
 
-  /* LIKE */
+  detailBtn.addEventListener(
+    "click",
+    e=>{
 
-  card
-    .querySelector(".like")
-    .addEventListener(
-      "click",
-      e=>{
+      e.stopPropagation();
 
-        e.stopPropagation();
+      const open=
+        card.classList.toggle(
+          "showDetails"
+        );
 
-        e.currentTarget
-          .classList
-          .toggle("liked");
 
-      }
+      detailBtn.textContent=
+        open
+        ? "REKORU GİZLE"
+        : "REKORU GÖR";
+
+    }
+  );
+
+
+  const likeBtn=
+    card.querySelector(
+      ".like"
     );
 
 
-  /* SAVE */
+  if(
+    liked.has(index)
+  ){
 
-  card
-    .querySelector(".save")
-    .addEventListener(
-      "click",
-      e=>{
+    likeBtn.classList.add(
+      "liked"
+    );
 
-        e.stopPropagation();
+  }
 
-        e.currentTarget
-          .classList
-          .toggle("saved");
+
+  likeBtn.addEventListener(
+    "click",
+    e=>{
+
+      e.stopPropagation();
+
+      if(
+        liked.has(index)
+      ){
+
+        liked.delete(index);
+
+      }else{
+
+        liked.add(index);
 
       }
+
+      likeBtn.classList.toggle(
+        "liked"
+      );
+
+    }
+  );
+
+
+  const saveBtn=
+    card.querySelector(
+      ".save"
     );
 
 
-  /* COMMENT */
+  if(
+    saved.has(index)
+  ){
+
+    saveBtn.classList.add(
+      "saved"
+    );
+
+  }
+
+
+  saveBtn.addEventListener(
+    "click",
+    e=>{
+
+      e.stopPropagation();
+
+      if(
+        saved.has(index)
+      ){
+
+        saved.delete(index);
+
+      }else{
+
+        saved.add(index);
+
+      }
+
+      saveBtn.classList.toggle(
+        "saved"
+      );
+
+    }
+  );
+
 
   card
     .querySelector(".comment")
@@ -1516,8 +1864,6 @@ function createCard(record){
     );
 
 
-  /* SHARE */
-
   card
     .querySelector(".share")
     .addEventListener(
@@ -1526,23 +1872,28 @@ function createCard(record){
 
         e.stopPropagation();
 
+        const text=
+          `${record.title} — RekorTok`;
+
+
         try{
 
-          const text=
-            record.title+
-            " — RekorTok";
-
-          if(navigator.share){
+          if(
+            navigator.share
+          ){
 
             await navigator.share({
               title:"RekorTok",
-              text:text
+              text
             });
 
-          }else if(navigator.clipboard){
+          }else if(
+            navigator.clipboard
+          ){
 
-            await navigator.clipboard
-              .writeText(text);
+            await navigator.clipboard.writeText(
+              text
+            );
 
             showToast(
               "Paylaşım metni kopyalandı."
@@ -1550,7 +1901,7 @@ function createCard(record){
 
           }
 
-        }catch(err){}
+        }catch(error){}
 
       }
     );
@@ -1561,18 +1912,20 @@ function createCard(record){
 }
 
 
-/* =====================================================
+/* =========================================================
    NORMAL FEED
-===================================================== */
+========================================================= */
 
 function renderNormal(){
 
   searchMode=false;
 
+
   document
     .getElementById("empty")
     .classList
     .remove("show");
+
 
   document
     .getElementById("searchInfo")
@@ -1581,57 +1934,91 @@ function renderNormal(){
 
 
   const feed=
-    document.getElementById("feed");
+    document.getElementById(
+      "feed"
+    );
+
 
   feed.innerHTML="";
 
 
   const previousIndex=
-    Math.max(
-      0,
-      currentIndex-1
-    );
+    currentIndex<=0
+    ? TOTAL_CONTENT-1
+    : currentIndex-1;
+
+
+  const nextIndex=
+    currentIndex>=TOTAL_CONTENT-1
+    ? 0
+    : currentIndex+1;
 
 
   const previousRecord=
-    records[
-      previousIndex %
-      records.length
-    ];
+    generateContent(
+      previousIndex
+    );
+
 
   const currentRecord=
-    records[
-      currentIndex %
-      records.length
-    ];
+    generateContent(
+      currentIndex
+    );
+
 
   const nextRecord=
-    records[
-      (currentIndex+1) %
-      records.length
-    ];
+    generateContent(
+      nextIndex
+    );
 
 
   const previous=
-    createCard(previousRecord);
+    createCard(
+      previousRecord,
+      previousIndex
+    );
+
 
   const current=
-    createCard(currentRecord);
+    createCard(
+      currentRecord,
+      currentIndex
+    );
+
 
   const next=
-    createCard(nextRecord);
+    createCard(
+      nextRecord,
+      nextIndex
+    );
 
 
-  previous.classList.add("previous");
-
-  current.classList.add("active");
-
-  next.classList.add("next");
+  previous.classList.add(
+    "previous"
+  );
 
 
-  feed.appendChild(previous);
-  feed.appendChild(current);
-  feed.appendChild(next);
+  current.classList.add(
+    "active"
+  );
+
+
+  next.classList.add(
+    "next"
+  );
+
+
+  feed.appendChild(
+    previous
+  );
+
+  feed.appendChild(
+    current
+  );
+
+  feed.appendChild(
+    next
+  );
 
 
   updateProgress();
@@ -1639,14 +2026,15 @@ function renderNormal(){
 }
 
 
-/* =====================================================
+/* =========================================================
    NEXT
-===================================================== */
+========================================================= */
 
 function nextItem(){
 
   if(moving)
     return;
+
 
   moving=true;
 
@@ -1659,6 +2047,15 @@ function nextItem(){
 
     currentIndex++;
 
+    if(
+      currentIndex>=
+      TOTAL_CONTENT
+    ){
+
+      currentIndex=0;
+
+    }
+
     renderNormal();
 
   }
@@ -1671,14 +2068,15 @@ function nextItem(){
 }
 
 
-/* =====================================================
+/* =========================================================
    PREVIOUS
-===================================================== */
+========================================================= */
 
 function previousItem(){
 
   if(moving)
     return;
+
 
   moving=true;
 
@@ -1689,11 +2087,16 @@ function previousItem(){
 
   }else{
 
-    currentIndex=
-      Math.max(
-        0,
-        currentIndex-1
-      );
+    currentIndex--;
+
+    if(
+      currentIndex<0
+    ){
+
+      currentIndex=
+        TOTAL_CONTENT-1;
+
+    }
 
     renderNormal();
 
@@ -1707,34 +2110,161 @@ function previousItem(){
 }
 
 
-/* =====================================================
-   SEARCH RENDER
-===================================================== */
+/* =========================================================
+   ARAMA
+========================================================= */
+
+function normalize(text){
+
+  return String(
+    text || ""
+  )
+  .toLocaleLowerCase(
+    "tr-TR"
+  )
+  .replace(/ı/g,"i")
+  .replace(/ğ/g,"g")
+  .replace(/ü/g,"u")
+  .replace(/ş/g,"s")
+  .replace(/ö/g,"o")
+  .replace(/ç/g,"c")
+  .normalize("NFD")
+  .replace(
+    /[\u0300-\u036f]/g,
+    ""
+  )
+  .replace(
+    /\s+/g,
+    " "
+  )
+  .trim();
+
+}
+
+
+function searchRecords(query){
+
+  const q=
+    normalize(query);
+
+
+  if(!q)
+    return [];
+
+
+  const exact=[];
+  const starts=[];
+  const contains=[];
+  const other=[];
+
+
+  records.forEach(
+    (record,index)=>{
+
+      const title=
+        normalize(
+          record.title
+        );
+
+
+      const text=
+        normalize([
+          record.title,
+          record.type,
+          record.question,
+          record.record,
+          record.detail,
+          record.holder,
+          record.category,
+          record.fact
+        ].join(" "));
+
+
+      const result={
+        ...record,
+        index
+      };
+
+
+      if(
+        title===q
+      ){
+
+        exact.push(result);
+
+      }else if(
+        title.startsWith(q)
+      ){
+
+        starts.push(result);
+
+      }else if(
+        title.includes(q)
+      ){
+
+        contains.push(result);
+
+      }else if(
+        text.includes(q)
+      ){
+
+        other.push(result);
+
+      }
+
+    }
+  );
+
+
+  return [
+    ...exact,
+    ...starts,
+    ...contains,
+    ...other
+  ];
+
+}
+
+
+/* =========================================================
+   ARAMA RENDER
+========================================================= */
 
 function renderSearch(){
 
   const feed=
-    document.getElementById("feed");
+    document.getElementById(
+      "feed"
+    );
+
 
   feed.innerHTML="";
 
 
-  if(searchResults.length===0){
+  if(
+    searchResults.length===0
+  ){
 
     document
       .getElementById("empty")
       .classList
       .add("show");
 
+
     const info=
       document.getElementById(
         "searchInfo"
       );
 
+
     info.textContent=
       "Rekor bulunamadı";
 
-    info.classList.add("show");
+
+    info.classList.add(
+      "show"
+    );
+
 
     updateProgress();
 
@@ -1756,11 +2286,20 @@ function renderSearch(){
 
 
   const card=
-    createCard(record);
+    createCard(
+      record,
+      record.index
+    );
 
-  card.classList.add("active");
 
-  feed.appendChild(card);
+  card.classList.add(
+    "active"
+  );
+
+
+  feed.appendChild(
+    card
+  );
 
 
   const info=
@@ -1768,12 +2307,14 @@ function renderSearch(){
       "searchInfo"
     );
 
-  info.textContent=
-    record.icon+
-    " "+
-    record.title;
 
-  info.classList.add("show");
+  info.textContent=
+    `${record.icon} ${record.title}`;
+
+
+  info.classList.add(
+    "show"
+  );
 
 
   updateProgress();
@@ -1781,16 +2322,16 @@ function renderSearch(){
 }
 
 
-/* =====================================================
-   SEARCH NEXT
-===================================================== */
-
 function nextSearch(){
 
-  if(searchResults.length<=1)
+  if(
+    searchResults.length<=1
+  )
     return;
 
+
   searchIndex++;
+
 
   if(
     searchIndex>=
@@ -1801,42 +2342,47 @@ function nextSearch(){
 
   }
 
+
   renderSearch();
 
 }
 
 
-/* =====================================================
-   SEARCH PREVIOUS
-===================================================== */
-
 function previousSearch(){
 
-  if(searchResults.length<=1)
+  if(
+    searchResults.length<=1
+  )
     return;
+
 
   searchIndex--;
 
-  if(searchIndex<0){
+
+  if(
+    searchIndex<0
+  ){
 
     searchIndex=
       searchResults.length-1;
 
   }
 
+
   renderSearch();
 
 }
 
 
-/* =====================================================
+/* =========================================================
    SEARCH INPUT
-===================================================== */
+========================================================= */
 
 const searchInput=
   document.getElementById(
     "searchInput"
   );
+
 
 const clearSearch=
   document.getElementById(
@@ -1874,7 +2420,10 @@ searchInput.addEventListener(
 
 
     searchResults=
-      searchRecords(value);
+      searchRecords(
+        value
+      );
+
 
     searchIndex=0;
 
@@ -1885,10 +2434,6 @@ searchInput.addEventListener(
   }
 );
 
-
-/* =====================================================
-   CLEAR SEARCH
-===================================================== */
 
 clearSearch.addEventListener(
   "click",
@@ -1914,9 +2459,9 @@ clearSearch.addEventListener(
 );
 
 
-/* =====================================================
+/* =========================================================
    PROGRESS
-===================================================== */
+========================================================= */
 
 function updateProgress(){
 
@@ -1926,9 +2471,13 @@ function updateProgress(){
     );
 
 
-  if(searchMode){
+  if(
+    searchMode
+  ){
 
-    if(searchResults.length===0){
+    if(
+      searchResults.length===0
+    ){
 
       fill.style.width="0%";
 
@@ -1937,47 +2486,56 @@ function updateProgress(){
     }
 
 
-    if(searchResults.length===1){
-
-      fill.style.width="100%";
-
-      return;
-
-    }
-
-
     fill.style.width=
       (
-        (searchIndex+1) /
+        (
+          searchIndex+1
+        ) /
         searchResults.length *
         100
       )+
       "%";
+
 
     return;
 
   }
 
 
-  const position=
-    currentIndex %
-    records.length;
+  /*
+    Görsel ilerleme göstergesi
+    20 milyonluk sistemde konuma göre çalışır.
+  */
 
+  const percentage=
+    (
+      (
+        currentIndex+1
+      ) /
+      TOTAL_CONTENT *
+      100
+    );
+
+
+  /*
+    Çok küçük yüzdelerde bile
+    kullanıcıya görünür kalması için
+    minimum genişlik kullanıyoruz.
+  */
 
   fill.style.width=
-    (
-      (position+1) /
-      records.length *
-      100
+    Math.max(
+      0.3,
+      percentage
     )+
     "%";
 
 }
 
 
-/* =====================================================
+/* =========================================================
    TOUCH
-===================================================== */
+========================================================= */
 
 let startY=0;
 let startX=0;
@@ -2002,6 +2560,7 @@ document.addEventListener(
     const touch=
       e.changedTouches[0];
 
+
     startY=
       touch.clientY;
 
@@ -2012,7 +2571,9 @@ document.addEventListener(
       Date.now();
 
   },
-  {passive:true}
+  {
+    passive:true
+  }
 );
 
 
@@ -2034,27 +2595,44 @@ document.addEventListener(
     const touch=
       e.changedTouches[0];
 
+
     const dy=
-      touch.clientY-startY;
+      touch.clientY-
+      startY;
+
 
     const dx=
-      touch.clientX-startX;
+      touch.clientX-
+      startX;
+
 
     const duration=
-      Date.now()-startTime;
+      Date.now()-
+      startTime;
 
 
-    if(duration>900)
-      return;
-
-    if(Math.abs(dy)<50)
-      return;
-
-    if(Math.abs(dy)<Math.abs(dx))
+    if(
+      duration>900
+    )
       return;
 
 
-    if(dy<0){
+    if(
+      Math.abs(dy)<50
+    )
+      return;
+
+
+    if(
+      Math.abs(dy)<
+      Math.abs(dx)
+    )
+      return;
+
+
+    if(
+      dy<0
+    ){
 
       nextItem();
 
@@ -2065,13 +2643,15 @@ document.addEventListener(
     }
 
   },
-  {passive:true}
+  {
+    passive:true
+  }
 );
 
 
-/* =====================================================
+/* =========================================================
    MOUSE WHEEL
-===================================================== */
+========================================================= */
 
 let wheelLocked=false;
 
@@ -2091,17 +2671,24 @@ document.addEventListener(
     }
 
 
-    if(wheelLocked)
+    if(
+      wheelLocked
+    )
       return;
 
-    if(Math.abs(e.deltaY)<25)
+
+    if(
+      Math.abs(e.deltaY)<25
+    )
       return;
 
 
     wheelLocked=true;
 
 
-    if(e.deltaY>0){
+    if(
+      e.deltaY>0
+    ){
 
       nextItem();
 
@@ -2112,18 +2699,23 @@ document.addEventListener(
     }
 
 
-    setTimeout(()=>{
-      wheelLocked=false;
-    },450);
+    setTimeout(
+      ()=>{
+        wheelLocked=false;
+      },
+      450
+    );
 
   },
-  {passive:true}
+  {
+    passive:true
+  }
 );
 
 
-/* =====================================================
-   KEYBOARD
-===================================================== */
+/* =========================================================
+   KLAVYE
+========================================================= */
 
 document.addEventListener(
   "keydown",
@@ -2164,7 +2756,9 @@ document.addEventListener(
     }
 
 
-    if(e.key==="Escape"){
+    if(
+      e.key==="Escape"
+    ){
 
       closeComments();
 
@@ -2174,12 +2768,15 @@ document.addEventListener(
 );
 
 
-/* =====================================================
+/* =========================================================
    COMMENTS
-===================================================== */
+========================================================= */
 
 const modal=
-  document.getElementById("modal");
+  document.getElementById(
+    "modal"
+  );
+
 
 const commentInput=
   document.getElementById(
@@ -2189,24 +2786,34 @@ const commentInput=
 
 function openComments(){
 
-  modal.classList.add("show");
+  modal.classList.add(
+    "show"
+  );
 
-  setTimeout(()=>{
-    commentInput.focus();
-  },100);
+
+  setTimeout(
+    ()=>{
+      commentInput.focus();
+    },
+    100
+  );
 
 }
 
 
 function closeComments(){
 
-  modal.classList.remove("show");
+  modal.classList.remove(
+    "show"
+  );
 
 }
 
 
 document
-  .getElementById("closeComment")
+  .getElementById(
+    "closeComment"
+  )
   .addEventListener(
     "click",
     closeComments
@@ -2214,13 +2821,19 @@ document
 
 
 document
-  .getElementById("sendComment")
+  .getElementById(
+    "sendComment"
+  )
   .addEventListener(
     "click",
     ()=>{
 
+      const value=
+        commentInput.value.trim();
+
+
       if(
-        commentInput.value.trim()
+        value
       ){
 
         showToast(
@@ -2230,6 +2843,7 @@ document
         commentInput.value="";
 
       }
+
 
       closeComments();
 
@@ -2241,7 +2855,10 @@ modal.addEventListener(
   "click",
   e=>{
 
-    if(e.target===modal){
+    if(
+      e.target===
+      modal
+    ){
 
       closeComments();
 
@@ -2251,50 +2868,51 @@ modal.addEventListener(
 );
 
 
-/* =====================================================
+/* =========================================================
    TOAST
-===================================================== */
+========================================================= */
+
+let toastTimer;
+
 
 function showToast(text){
 
   const toast=
-    document.createElement("div");
+    document.getElementById(
+      "toast"
+    );
 
-  toast.textContent=text;
+
+  toast.textContent=
+    text;
 
 
-  Object.assign(
-    toast.style,
-    {
-      position:"fixed",
-      left:"50%",
-      bottom:"55px",
-      transform:"translateX(-50%)",
-      zIndex:"99999",
-      padding:"10px 16px",
-      borderRadius:"999px",
-      background:"rgba(20,20,20,.95)",
-      color:"#fff",
-      border:"1px solid rgba(255,255,255,.12)",
-      fontSize:"13px",
-      fontWeight:"700"
-    }
+  toast.classList.add(
+    "show"
   );
 
 
-  document.body.appendChild(toast);
+  clearTimeout(
+    toastTimer
+  );
 
 
-  setTimeout(()=>{
-    toast.remove();
-  },1600);
+  toastTimer=
+    setTimeout(
+      ()=>{
+        toast.classList.remove(
+          "show"
+        );
+      },
+      1800
+    );
 
 }
 
 
-/* =====================================================
-   BAŞLAT
-===================================================== */
+/* =========================================================
+   BAŞLANGIÇ
+========================================================= */
 
 window.addEventListener(
   "load",
@@ -2303,14 +2921,17 @@ window.addEventListener(
     renderNormal();
 
 
-    setTimeout(()=>{
+    setTimeout(
+      ()=>{
 
-      document
-        .getElementById("intro")
-        .classList
-        .add("hide");
+        document
+          .getElementById("intro")
+          .classList
+          .add("hide");
 
-    },1800);
+      },
+      1800
+    );
 
   }
 );
