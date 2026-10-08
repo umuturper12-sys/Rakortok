@@ -1,0 +1,2321 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<title>RekorTok</title>
+
+<style>
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+  -webkit-tap-highlight-color:transparent;
+}
+
+html,body{
+  width:100%;
+  height:100%;
+  overflow:hidden;
+  background:#050505;
+  color:#fff;
+  font-family:Arial,Helvetica,sans-serif;
+}
+
+button,input,textarea{
+  font:inherit;
+}
+
+/* INTRO */
+
+#intro{
+  position:fixed;
+  inset:0;
+  z-index:99999;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:#000;
+  transition:opacity 1s ease,visibility 1s ease;
+}
+
+#intro.hide{
+  opacity:0;
+  visibility:hidden;
+  pointer-events:none;
+}
+
+#introName{
+  font-size:clamp(42px,11vw,82px);
+  font-weight:900;
+  letter-spacing:2px;
+  animation:pulse 1.8s ease-in-out infinite;
+}
+
+@keyframes pulse{
+  0%,100%{
+    opacity:.55;
+    transform:scale(.96);
+  }
+  50%{
+    opacity:1;
+    transform:scale(1.04);
+  }
+}
+
+/* APP */
+
+#app{
+  position:relative;
+  width:100%;
+  height:100%;
+  overflow:hidden;
+
+  background:
+    radial-gradient(
+      circle at 50% 30%,
+      rgba(255,190,50,.13),
+      transparent 38%
+    ),
+    linear-gradient(
+      180deg,
+      #120d02,
+      #070604 55%,
+      #020202
+    );
+}
+
+/* TOP */
+
+.topbar{
+  position:absolute;
+  left:0;
+  right:0;
+  top:0;
+
+  z-index:100;
+
+  height:76px;
+
+  display:flex;
+  align-items:center;
+  gap:12px;
+
+  padding:12px 15px;
+
+  background:
+    linear-gradient(
+      180deg,
+      rgba(0,0,0,.92),
+      rgba(0,0,0,.3),
+      transparent
+    );
+}
+
+.logo{
+  font-size:24px;
+  font-weight:950;
+  letter-spacing:-1px;
+  white-space:nowrap;
+}
+
+.search{
+  position:relative;
+  flex:1;
+  max-width:430px;
+  margin-left:auto;
+}
+
+#searchInput{
+  width:100%;
+  height:44px;
+
+  padding:0 72px 0 18px;
+
+  border-radius:999px;
+
+  border:1px solid rgba(255,255,255,.16);
+
+  outline:none;
+
+  color:#fff;
+  background:rgba(255,255,255,.08);
+
+  backdrop-filter:blur(18px);
+
+  font-size:15px;
+}
+
+#searchInput::placeholder{
+  color:rgba(255,255,255,.5);
+}
+
+#searchInput:focus{
+  border-color:rgba(255,210,80,.55);
+  background:rgba(255,255,255,.12);
+}
+
+.searchIcon{
+  position:absolute;
+  right:14px;
+  top:50%;
+  transform:translateY(-50%);
+  pointer-events:none;
+}
+
+#clearSearch{
+  position:absolute;
+  right:42px;
+  top:50%;
+  transform:translateY(-50%);
+
+  width:25px;
+  height:25px;
+
+  border:0;
+  border-radius:50%;
+
+  display:none;
+  align-items:center;
+  justify-content:center;
+
+  background:rgba(255,255,255,.14);
+  color:#fff;
+
+  cursor:pointer;
+}
+
+#clearSearch.show{
+  display:flex;
+}
+
+/* SEARCH INFO */
+
+#searchInfo{
+  position:absolute;
+  top:82px;
+  left:50%;
+  transform:translateX(-50%);
+
+  z-index:90;
+
+  display:none;
+
+  padding:8px 15px;
+
+  border-radius:999px;
+
+  background:rgba(0,0,0,.75);
+  border:1px solid rgba(255,255,255,.12);
+
+  backdrop-filter:blur(15px);
+
+  font-size:12px;
+  font-weight:900;
+
+  white-space:nowrap;
+}
+
+#searchInfo.show{
+  display:block;
+}
+
+/* FEED */
+
+#feed{
+  position:relative;
+  width:100%;
+  height:100%;
+  overflow:hidden;
+}
+
+.card{
+  position:absolute;
+  inset:0;
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
+  padding:95px 82px 50px;
+
+  opacity:0;
+
+  transform:translateY(80px) scale(.97);
+
+  pointer-events:none;
+
+  transition:
+    opacity .35s ease,
+    transform .42s ease;
+}
+
+.card.active{
+  opacity:1;
+  transform:translateY(0) scale(1);
+  pointer-events:auto;
+}
+
+.card.previous{
+  transform:translateY(-80px) scale(.97);
+}
+
+.card.next{
+  transform:translateY(80px) scale(.97);
+}
+
+/* CONTENT */
+
+.content{
+  width:min(700px,100%);
+
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+
+  text-align:center;
+}
+
+.trophy{
+  width:94px;
+  height:94px;
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
+  border-radius:30px;
+
+  background:rgba(255,190,50,.09);
+  border:1px solid rgba(255,210,80,.2);
+
+  font-size:55px;
+
+  margin-bottom:17px;
+
+  box-shadow:
+    0 20px 70px rgba(0,0,0,.4);
+}
+
+.recordType{
+  padding:7px 14px;
+
+  border-radius:999px;
+
+  background:rgba(255,255,255,.08);
+  border:1px solid rgba(255,255,255,.12);
+
+  font-size:10px;
+  font-weight:900;
+
+  letter-spacing:1px;
+
+  margin-bottom:14px;
+}
+
+.recordTitle{
+  font-size:clamp(34px,7vw,64px);
+
+  line-height:.98;
+
+  font-weight:950;
+
+  letter-spacing:-2.5px;
+
+  margin-bottom:18px;
+}
+
+.recordQuestion{
+  max-width:650px;
+
+  font-size:clamp(19px,4.4vw,31px);
+
+  line-height:1.15;
+
+  font-weight:850;
+
+  margin-bottom:12px;
+}
+
+.recordSub{
+  max-width:570px;
+
+  color:rgba(255,255,255,.6);
+
+  font-size:14px;
+  line-height:1.45;
+
+  margin-bottom:20px;
+}
+
+/* DETAIL BUTTON */
+
+.detailBtn{
+  padding:14px 23px;
+
+  border:0;
+  border-radius:999px;
+
+  background:#fff;
+  color:#000;
+
+  font-size:13px;
+  font-weight:950;
+
+  cursor:pointer;
+
+  transition:transform .18s ease;
+}
+
+.detailBtn:active{
+  transform:scale(.94);
+}
+
+/* DETAILS */
+
+.details{
+  width:min(650px,100%);
+
+  max-height:0;
+
+  overflow:hidden;
+
+  opacity:0;
+
+  margin-top:0;
+
+  padding:0 17px;
+
+  border:1px solid transparent;
+
+  border-radius:20px;
+
+  background:rgba(0,0,0,.48);
+
+  text-align:left;
+
+  transform:translateY(-5px);
+
+  transition:
+    max-height .35s ease,
+    opacity .25s ease,
+    transform .25s ease,
+    padding .35s ease,
+    margin-top .35s ease;
+}
+
+.card.showDetails .details{
+  max-height:min(310px,36vh);
+
+  opacity:1;
+
+  margin-top:13px;
+
+  padding:15px 17px;
+
+  transform:translateY(0);
+
+  border-color:rgba(255,255,255,.12);
+
+  overflow-y:auto;
+}
+
+.detail{
+  padding:9px 0;
+
+  border-bottom:1px solid rgba(255,255,255,.08);
+}
+
+.detail:last-child{
+  border-bottom:0;
+}
+
+.detailLabel{
+  color:rgba(255,255,255,.45);
+
+  font-size:10px;
+
+  font-weight:900;
+
+  letter-spacing:.7px;
+
+  margin-bottom:4px;
+}
+
+.detailText{
+  color:rgba(255,255,255,.9);
+
+  font-size:14px;
+
+  line-height:1.4;
+}
+
+/* ACTIONS */
+
+.actions{
+  position:absolute;
+
+  right:15px;
+  bottom:105px;
+
+  z-index:30;
+
+  display:flex;
+  flex-direction:column;
+
+  gap:12px;
+}
+
+.action{
+  width:47px;
+  height:47px;
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
+  border-radius:50%;
+
+  border:1px solid rgba(255,255,255,.11);
+
+  background:rgba(0,0,0,.46);
+
+  backdrop-filter:blur(12px);
+
+  color:#fff;
+
+  font-size:20px;
+
+  cursor:pointer;
+
+  transition:transform .18s ease;
+}
+
+.action:active{
+  transform:scale(.87);
+}
+
+.action.liked{
+  background:rgba(255,50,80,.2);
+}
+
+.action.saved{
+  background:rgba(255,210,60,.2);
+}
+
+/* EMPTY */
+
+#empty{
+  position:absolute;
+  inset:0;
+
+  z-index:30;
+
+  display:none;
+
+  align-items:center;
+  justify-content:center;
+
+  text-align:center;
+}
+
+#empty.show{
+  display:flex;
+}
+
+.emptyIcon{
+  font-size:56px;
+  margin-bottom:14px;
+}
+
+.emptyTitle{
+  font-size:25px;
+  font-weight:900;
+  margin-bottom:8px;
+}
+
+.emptyText{
+  color:rgba(255,255,255,.55);
+}
+
+/* PROGRESS */
+
+.progress{
+  position:absolute;
+
+  left:15px;
+  right:15px;
+  bottom:18px;
+
+  height:3px;
+
+  border-radius:99px;
+
+  overflow:hidden;
+
+  background:rgba(255,255,255,.1);
+
+  z-index:50;
+}
+
+.progressFill{
+  height:100%;
+  width:0;
+
+  background:#fff;
+
+  border-radius:99px;
+
+  transition:width .35s ease;
+}
+
+/* MODAL */
+
+#modal{
+  position:fixed;
+  inset:0;
+
+  z-index:5000;
+
+  display:none;
+  align-items:flex-end;
+
+  background:rgba(0,0,0,.7);
+
+  backdrop-filter:blur(8px);
+}
+
+#modal.show{
+  display:flex;
+}
+
+.commentBox{
+  width:100%;
+
+  padding:20px;
+
+  background:#111;
+
+  border-radius:25px 25px 0 0;
+
+  border:1px solid rgba(255,255,255,.1);
+}
+
+.commentTitle{
+  font-size:20px;
+  font-weight:900;
+  margin-bottom:15px;
+}
+
+#commentInput{
+  width:100%;
+  min-height:90px;
+
+  padding:14px;
+
+  resize:none;
+  outline:none;
+
+  border-radius:16px;
+
+  background:#050505;
+  color:#fff;
+
+  border:1px solid rgba(255,255,255,.12);
+}
+
+.commentButtons{
+  display:flex;
+  gap:10px;
+
+  margin-top:10px;
+}
+
+.commentButtons button{
+  flex:1;
+
+  padding:13px;
+
+  border:0;
+  border-radius:14px;
+
+  font-weight:900;
+
+  cursor:pointer;
+}
+
+.send{
+  background:#fff;
+  color:#000;
+}
+
+.close{
+  background:#252525;
+  color:#fff;
+}
+
+/* MOBILE */
+
+@media(max-width:600px){
+
+  .topbar{
+    height:70px;
+    padding:10px 12px;
+  }
+
+  .logo{
+    font-size:20px;
+  }
+
+  #searchInput{
+    height:40px;
+    font-size:14px;
+  }
+
+  .card{
+    padding:86px 66px 45px;
+  }
+
+  .trophy{
+    width:78px;
+    height:78px;
+    font-size:45px;
+    border-radius:24px;
+    margin-bottom:13px;
+  }
+
+  .recordTitle{
+    letter-spacing:-1.7px;
+  }
+
+  .recordQuestion{
+    font-size:20px;
+  }
+
+  .recordSub{
+    font-size:13px;
+    margin-bottom:15px;
+  }
+
+  .detailBtn{
+    padding:12px 20px;
+  }
+
+  .actions{
+    right:10px;
+    bottom:80px;
+    gap:9px;
+  }
+
+  .action{
+    width:42px;
+    height:42px;
+    font-size:18px;
+  }
+
+  .progress{
+    left:12px;
+    right:12px;
+    bottom:12px;
+  }
+}
+
+@media(max-height:700px){
+
+  .trophy{
+    width:62px;
+    height:62px;
+    font-size:35px;
+    margin-bottom:7px;
+  }
+
+  .recordTitle{
+    font-size:34px;
+    margin-bottom:9px;
+  }
+
+  .recordQuestion{
+    font-size:18px;
+    margin-bottom:7px;
+  }
+
+  .recordSub{
+    font-size:12px;
+    margin-bottom:9px;
+  }
+
+  .detailBtn{
+    padding:10px 17px;
+    font-size:12px;
+  }
+
+  .card.showDetails .details{
+    max-height:25vh;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<!-- INTRO -->
+
+<div id="intro">
+  <div id="introName">Umut Ürper</div>
+</div>
+
+<div id="app">
+
+  <div class="topbar">
+
+    <div class="logo">
+      RekorTok
+    </div>
+
+    <div class="search">
+
+      <input
+        id="searchInput"
+        type="text"
+        inputmode="search"
+        autocomplete="off"
+        autocorrect="off"
+        autocapitalize="none"
+        spellcheck="false"
+        placeholder="Rekor ara..."
+      >
+
+      <button
+        id="clearSearch"
+        type="button"
+      >×</button>
+
+      <div class="searchIcon">🔎</div>
+
+    </div>
+
+  </div>
+
+  <div id="searchInfo"></div>
+
+  <main id="feed"></main>
+
+  <div id="empty">
+
+    <div>
+
+      <div class="emptyIcon">🏆</div>
+
+      <div class="emptyTitle">
+        Rekor bulunamadı
+      </div>
+
+      <div class="emptyText">
+        Başka bir rekor veya isim ara.
+      </div>
+
+    </div>
+
+  </div>
+
+  <div class="progress">
+    <div id="progressFill" class="progressFill"></div>
+  </div>
+
+</div>
+
+
+<!-- COMMENTS -->
+
+<div id="modal">
+
+  <div class="commentBox">
+
+    <div class="commentTitle">
+      Yorumlar
+    </div>
+
+    <textarea
+      id="commentInput"
+      placeholder="Bir şeyler yaz..."
+    ></textarea>
+
+    <div class="commentButtons">
+
+      <button
+        class="send"
+        id="sendComment"
+      >
+        Gönder
+      </button>
+
+      <button
+        class="close"
+        id="closeComment"
+      >
+        Kapat
+      </button>
+
+    </div>
+
+  </div>
+
+</div>
+
+
+<script>
+
+/* =====================================================
+   İÇERİK KAPASİTESİ
+===================================================== */
+
+const TOTAL_CONTENT = 20000000;
+
+
+/* =====================================================
+   DURUM
+===================================================== */
+
+let currentIndex = 0;
+
+let moving = false;
+
+let searchMode = false;
+
+let searchResults = [];
+
+let searchIndex = 0;
+
+
+/* =====================================================
+   REKORLAR
+===================================================== */
+
+const records = [
+
+{
+  title:"En hızlı kara hayvanı",
+  icon:"🐆",
+  type:"HAYVAN REKORLARI",
+  question:"Karada en yüksek hıza ulaşabilen hayvan hangisi?",
+  record:"Çita.",
+  detail:"Çitalar kısa mesafelerde yaklaşık 100 km/sa veya daha yüksek hızlara ulaşabilir.",
+  holder:"Çita",
+  category:"Hayvanlar",
+  fact:"Bu yüksek hızını uzun süre korumak yerine kısa süreli hızlanmalarda kullanır."
+},
+
+{
+  title:"En uzun yaşayan hayvanlardan biri",
+  icon:"🐋",
+  type:"YAŞAM REKORLARI",
+  question:"Bazı balinalar kaç yılın üzerinde yaşayabilir?",
+  record:"200 yılın üzerinde.",
+  detail:"Grönland balinası çok uzun ömürlü memeliler arasında yer alır.",
+  holder:"Grönland balinası",
+  category:"Hayvanlar",
+  fact:"Bazı bireylerin iki yüzyılı aşan yaşlara ulaşabildiğine dair bilimsel kanıtlar vardır."
+},
+
+{
+  title:"Dünyanın en yüksek dağı",
+  icon:"🏔️",
+  type:"DOĞA REKORLARI",
+  question:"Deniz seviyesine göre dünyanın en yüksek dağı hangisi?",
+  record:"Everest.",
+  detail:"Everest'in zirvesi deniz seviyesinden yaklaşık 8.849 metre yüksektedir.",
+  holder:"Everest",
+  category:"Dağlar",
+  fact:"Yüksekliği ölçüm yöntemlerine göre küçük farklılıklarla ifade edilebilir."
+},
+
+{
+  title:"En derin okyanus noktası",
+  icon:"🌊",
+  type:"OKYANUS REKORLARI",
+  question:"Dünya üzerindeki bilinen en derin deniz noktası neresi?",
+  record:"Challenger Deep.",
+  detail:"Mariana Çukuru'nun içindeki Challenger Deep, yaklaşık 11 kilometrelik derinliğiyle bilinir.",
+  holder:"Mariana Çukuru",
+  category:"Okyanus",
+  fact:"Bölgedeki basınç yüzeydeki atmosfer basıncının yüzlerce katına ulaşabilir."
+},
+
+{
+  title:"En büyük kara hayvanı",
+  icon:"🐘",
+  type:"HAYVAN REKORLARI",
+  question:"Günümüzde yaşayan en büyük kara hayvanı hangisi?",
+  record:"Afrika savan fili.",
+  detail:"Yetişkin erkek Afrika filleri birkaç ton ağırlığa ulaşabilir.",
+  holder:"Afrika fili",
+  category:"Hayvanlar",
+  fact:"Filin hortumu hem nefes alma hem beslenme hem de iletişim gibi birçok işlevde kullanılır."
+},
+
+{
+  title:"En büyük hayvan",
+  icon:"🐋",
+  type:"HAYVAN REKORLARI",
+  question:"Dünya üzerinde yaşamış en büyük hayvan hangisidir?",
+  record:"Mavi balina.",
+  detail:"Mavi balinalar 30 metreyi aşabilen uzunluklara ve 100 tonun üzerinde ağırlıklara ulaşabilir.",
+  holder:"Mavi balina",
+  category:"Hayvanlar",
+  fact:"Kalbi küçük bir otomobil büyüklüğüne yaklaşabilecek kadar büyüktür."
+},
+
+{
+  title:"En hızlı kuş",
+  icon:"🦅",
+  type:"HIZ REKORLARI",
+  question:"Dalış sırasında en yüksek hıza ulaşabilen kuş hangisi?",
+  record:"Gökdoğan.",
+  detail:"Gökdoğan dalış sırasında 300 km/sa'in üzerinde hızlara ulaşabilir.",
+  holder:"Gökdoğan",
+  category:"Kuşlar",
+  fact:"Bu hız düz uçuş hızından çok daha yüksektir."
+},
+
+{
+  title:"En büyük okyanus",
+  icon:"🌊",
+  type:"DÜNYA REKORLARI",
+  question:"Dünyanın yüzeyinin en büyük bölümünü hangi okyanus kaplar?",
+  record:"Pasifik Okyanusu.",
+  detail:"Pasifik, Dünya'nın en büyük ve en derin okyanusudur.",
+  holder:"Pasifik Okyanusu",
+  category:"Coğrafya",
+  fact:"Dünya üzerindeki çok sayıda ada ve derin okyanus çukuru burada bulunur."
+},
+
+{
+  title:"En büyük çöl",
+  icon:"🏜️",
+  type:"COĞRAFYA REKORLARI",
+  question:"Dünyanın yüzölçümü bakımından en büyük çölü hangisi?",
+  record:"Antarktika.",
+  detail:"Çöl tanımı yalnızca sıcak bölgeler için kullanılmaz; Antarktika da aşırı kuraklığı nedeniyle kutup çölüdür.",
+  holder:"Antarktika",
+  category:"Coğrafya",
+  fact:"Dünyadaki tatlı suyun büyük bölümü buz hâlinde Antarktika'da bulunur."
+},
+
+{
+  title:"En büyük sıcak çöl",
+  icon:"🏜️",
+  type:"COĞRAFYA REKORLARI",
+  question:"Dünyanın en büyük sıcak çölü hangisi?",
+  record:"Sahra Çölü.",
+  detail:"Sahra, Kuzey Afrika'nın çok büyük bir bölümünü kaplar.",
+  holder:"Sahra Çölü",
+  category:"Coğrafya",
+  fact:"Sahra'nın iklimi ve sınırları uzun zaman ölçeklerinde değişebilir."
+},
+
+{
+  title:"En uzun nehir tartışması",
+  icon:"🏞️",
+  type:"COĞRAFYA REKORLARI",
+  question:"Nil ve Amazon arasında hangi nehrin daha uzun olduğu tartışmalıdır.",
+  record:"Nil veya Amazon.",
+  detail:"Ölçümün hangi kaynaktan başlatıldığı ve nehrin nasıl tanımlandığı sonuçları değiştirebilir.",
+  holder:"Nil / Amazon",
+  category:"Nehirler",
+  fact:"Nehir uzunluğu ölçümleri kullanılan yönteme göre farklı sonuçlar verebilir."
+},
+
+{
+  title:"En büyük ada",
+  icon:"🏝️",
+  type:"COĞRAFYA REKORLARI",
+  question:"Avustralya kıta kabul edildiğinde dünyanın en büyük adası hangisidir?",
+  record:"Grönland.",
+  detail:"Grönland, Avustralya kıta olarak kabul edildiği için dünyanın en büyük adasıdır.",
+  holder:"Grönland",
+  category:"Adalar",
+  fact:"Adanın çok büyük bölümü buz tabakasıyla kaplıdır."
+},
+
+{
+  title:"En büyük okyanus canlılarından biri",
+  icon:"🦑",
+  type:"DENİZ REKORLARI",
+  question:"Dev kalamarlar ne kadar büyüyebilir?",
+  record:"10 metreyi aşabilir.",
+  detail:"Dev kalamarlar hakkında gözlemler sınırlıdır ve ölçülen örnekler arasında farklılıklar bulunur.",
+  holder:"Dev kalamar",
+  category:"Deniz canlıları",
+  fact:"Gözleri hayvanlar âlemindeki en büyük gözler arasında yer alır."
+},
+
+{
+  title:"En yüksek şelalelerden biri",
+  icon:"💧",
+  type:"DOĞA REKORLARI",
+  question:"Dünyanın en yüksek kesintisiz şelalesi hangisidir?",
+  record:"Angel Şelalesi.",
+  detail:"Venezuela'daki Angel Şelalesi yaklaşık 979 metre toplam yüksekliğe sahiptir.",
+  holder:"Angel Şelalesi",
+  category:"Şelaleler",
+  fact:"Şelalenin suyu çok yüksekten düştüğü için aşağıya ulaşmadan önce yoğun biçimde dağılıp sis oluşturabilir."
+},
+
+{
+  title:"En yüksek sıcaklık rekoru",
+  icon:"🌡️",
+  type:"İKLİM REKORLARI",
+  question:"Dünya üzerinde ölçülen en yüksek hava sıcaklıkları hangi bölgelerde kaydedildi?",
+  record:"Çok sıcak çöl bölgelerinde.",
+  detail:"Ölçüm istasyonu, yöntem ve kayıt doğrulaması sıcaklık rekorlarının değerlendirilmesinde önemlidir.",
+  holder:"Çöl bölgeleri",
+  category:"İklim",
+  fact:"Dünya sıcaklık rekorları ölçüm standartlarıyla birlikte değerlendirilir."
+},
+
+{
+  title:"En uzun yaşayan ağaçlardan biri",
+  icon:"🌳",
+  type:"BİTKİ REKORLARI",
+  question:"Binlerce yıl yaşayabilen ağaçlar var mı?",
+  record:"Evet.",
+  detail:"Bazı bristlecone çamları binlerce yıllık yaşlara ulaşabilir.",
+  holder:"Bristlecone çamı",
+  category:"Bitkiler",
+  fact:"Bazı örneklerin yaşı birkaç bin yıla ulaşmaktadır."
+},
+
+{
+  title:"En büyük çiçeklerden biri",
+  icon:"🌺",
+  type:"BİTKİ REKORLARI",
+  question:"Dünyanın en büyük tek çiçeklerinden biri hangisi?",
+  record:"Rafflesia.",
+  detail:"Rafflesia türleri bir metreyi aşabilen çaplarıyla dikkat çeker.",
+  holder:"Rafflesia",
+  category:"Bitkiler",
+  fact:"Bazı türleri tozlaşma için sinekleri çeken güçlü bir koku üretir."
+},
+
+{
+  title:"En hızlı büyüyen bitkiler",
+  icon:"🎋",
+  type:"BİTKİ REKORLARI",
+  question:"Bazı bambular ne kadar hızlı büyüyebilir?",
+  record:"Uygun koşullarda günde onlarca santimetre.",
+  detail:"Bambu türleri arasında büyüme hızları ciddi şekilde değişir.",
+  holder:"Bazı bambu türleri",
+  category:"Bitkiler",
+  fact:"Bambular aslında çim ailesinin üyeleridir."
+},
+
+{
+  title:"En yüksek insan yapısı",
+  icon:"🏙️",
+  type:"YAPI REKORLARI",
+  question:"Günümüzde dünyanın en yüksek binası hangisi?",
+  record:"Burj Khalifa.",
+  detail:"Dubai'deki Burj Khalifa'nın mimari yüksekliği 828 metredir.",
+  holder:"Burj Khalifa",
+  category:"Mimari",
+  fact:"Bina 2010 yılında resmi olarak açılmıştır."
+},
+
+{
+  title:"En uzun köprülerden biri",
+  icon:"🌉",
+  type:"MÜHENDİSLİK REKORLARI",
+  question:"Dünyanın en uzun köprüleri ne kadar uzun olabilir?",
+  record:"Onlarca kilometre.",
+  detail:"Köprü uzunluğu hangi bölümün ölçüldüğüne göre farklı şekillerde sınıflandırılabilir.",
+  holder:"Çeşitli uzun köprüler",
+  category:"Mühendislik",
+  fact:"Bazı köprüler kara yerine geniş su veya sulak alanların üzerinden geçer."
+},
+
+{
+  title:"En büyük yolcu uçağı",
+  icon:"✈️",
+  type:"HAVACILIK REKORLARI",
+  question:"Dünyanın en büyük yolcu uçaklarından biri hangisi?",
+  record:"Airbus A380.",
+  detail:"A380 iki tam boy yolcu güvertesine sahip çok büyük bir yolcu uçağıdır.",
+  holder:"Airbus A380",
+  category:"Havacılık",
+  fact:"Dört motorlu uçak, tam dolu yapılandırmalarda yüzlerce yolcu taşıyabilir."
+},
+
+{
+  title:"En hızlı kara taşıtlarından biri",
+  icon:"🏎️",
+  type:"HIZ REKORLARI",
+  question:"Özel tasarlanmış kara araçları ne kadar hızlı olabilir?",
+  record:"1.000 km/sa'in üzerine çıkabilir.",
+  detail:"Jet motorlu kara araçları geleneksel otomobillerden tamamen farklı tasarımlara sahiptir.",
+  holder:"Özel hız araçları",
+  category:"Otomotiv",
+  fact:"Bu araçlar günlük kullanım için değil, hız rekoru denemeleri için tasarlanır."
+},
+
+{
+  title:"En büyük yolcu gemilerinden biri",
+  icon:"🛳️",
+  type:"DENİZCİLİK REKORLARI",
+  question:"Modern yolcu gemileri küçük şehirler kadar büyük olabilir mi?",
+  record:"Evet.",
+  detail:"En büyük yolcu gemileri binlerce yolcu ve mürettebat taşıyabilir.",
+  holder:"Modern yolcu gemileri",
+  category:"Denizcilik",
+  fact:"Bazılarında restoranlar, tiyatrolar, havuzlar ve eğlence alanları bulunur."
+},
+
+{
+  title:"En derin göl",
+  icon:"🏞️",
+  type:"COĞRAFYA REKORLARI",
+  question:"Dünyanın en derin gölü hangisi?",
+  record:"Baykal Gölü.",
+  detail:"Rusya'daki Baykal Gölü yaklaşık 1.642 metre derinliğe ulaşır.",
+  holder:"Baykal Gölü",
+  category:"Göller",
+  fact:"Aynı zamanda dünyanın en eski göllerinden biri olarak kabul edilir."
+},
+
+{
+  title:"En büyük göl",
+  icon:"🌊",
+  type:"COĞRAFYA REKORLARI",
+  question:"Yüzölçümü bakımından dünyanın en büyük gölü hangisi?",
+  record:"Hazar Denizi.",
+  detail:"Adında deniz geçmesine rağmen coğrafi olarak kapalı bir su kütlesidir.",
+  holder:"Hazar Denizi",
+  category:"Göller",
+  fact:"Yüzölçümü bakımından dünyanın en büyük kapalı su kütlesidir."
+},
+
+{
+  title:"En küçük kuş",
+  icon:"🐦",
+  type:"HAYVAN REKORLARI",
+  question:"Dünyanın en küçük kuşu hangisi?",
+  record:"Arı sinek kuşu.",
+  detail:"Küba'ya özgü bu sinek kuşu yalnızca birkaç santimetre boyundadır.",
+  holder:"Arı sinek kuşu",
+  category:"Kuşlar",
+  fact:"Ağırlığı bazı böceklerden bile daha düşük olabilir."
+},
+
+{
+  title:"En büyük kara yırtıcılarından biri",
+  icon:"🐻",
+  type:"HAYVAN REKORLARI",
+  question:"Karadaki en büyük etçil memeliler arasında hangileri bulunur?",
+  record:"Kutup ayısı ve Kodiak ayısı.",
+  detail:"Boyutlar bireye, yaşa ve cinsiyete göre değişir.",
+  holder:"Büyük ayı türleri",
+  category:"Hayvanlar",
+  fact:"Kutup ayıları özellikle denizel besin kaynaklarına bağımlıdır."
+},
+
+{
+  title:"En uzun hayvanlardan biri",
+  icon:"🪼",
+  type:"DENİZ REKORLARI",
+  question:"Denizlerde çok uzun canlılar bulunabilir mi?",
+  record:"Evet.",
+  detail:"Bazı sifonofor kolonileri çok uzun yapılara ulaşabilir.",
+  holder:"Sifonoforlar",
+  category:"Deniz canlıları",
+  fact:"Sifonoforlar tek bir hayvan gibi görünse de çok sayıda özelleşmiş bireyin oluşturduğu kolonilerdir."
+},
+
+{
+  title:"En büyük mercan sistemi",
+  icon:"🪸",
+  type:"DOĞA REKORLARI",
+  question:"Dünyanın en büyük mercan resif sistemi hangisi?",
+  record:"Büyük Set Resifi.",
+  detail:"Avustralya açıklarındaki Büyük Set Resifi binlerce ayrı resif ve adacıktan oluşur.",
+  holder:"Büyük Set Resifi",
+  category:"Deniz ekosistemleri",
+  fact:"Uzaydan görülebilecek kadar büyük olduğu sıkça belirtilse de görünürlüğü koşullara bağlıdır."
+}
+
+];
+
+
+/* =====================================================
+   NORMALIZE
+===================================================== */
+
+function normalize(text){
+
+  return String(text || "")
+    .toLocaleLowerCase("tr-TR")
+    .replace(/ı/g,"i")
+    .replace(/ğ/g,"g")
+    .replace(/ü/g,"u")
+    .replace(/ş/g,"s")
+    .replace(/ö/g,"o")
+    .replace(/ç/g,"c")
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g,"")
+    .replace(/\s+/g," ")
+    .trim();
+
+}
+
+
+/* =====================================================
+   ARAMA
+===================================================== */
+
+function searchRecords(query){
+
+  const q=normalize(query);
+
+  if(!q) return [];
+
+  const exact=[];
+  const starts=[];
+  const contains=[];
+  const other=[];
+
+  records.forEach(record=>{
+
+    const title=normalize(record.title);
+
+    const searchable=normalize([
+      record.title,
+      record.type,
+      record.question,
+      record.record,
+      record.detail,
+      record.holder,
+      record.category,
+      record.fact
+    ].join(" "));
+
+
+    if(title===q){
+
+      exact.push(record);
+
+    }else if(title.startsWith(q)){
+
+      starts.push(record);
+
+    }else if(title.includes(q)){
+
+      contains.push(record);
+
+    }else if(searchable.includes(q)){
+
+      other.push(record);
+
+    }
+
+  });
+
+
+  return [
+    ...exact,
+    ...starts,
+    ...contains,
+    ...other
+  ];
+
+}
+
+
+/* =====================================================
+   CARD
+===================================================== */
+
+function createCard(record){
+
+  const card=
+    document.createElement("section");
+
+  card.className="card";
+
+
+  card.innerHTML=`
+
+    <div class="content">
+
+      <div class="trophy">
+        ${record.icon}
+      </div>
+
+      <div class="recordType">
+        ${record.type}
+      </div>
+
+      <h1 class="recordTitle">
+        ${record.title}
+      </h1>
+
+      <div class="recordQuestion">
+        ${record.question}
+      </div>
+
+      <div class="recordSub">
+        Rekorun ayrıntılarını görmek için aşağıdaki düğmeye bas.
+      </div>
+
+      <button
+        class="detailBtn"
+        type="button"
+      >
+        REKORU GÖR
+      </button>
+
+      <div class="details">
+
+        <div class="detail">
+          <div class="detailLabel">
+            🏆 REKOR
+          </div>
+
+          <div class="detailText">
+            ${record.record}
+          </div>
+        </div>
+
+        <div class="detail">
+          <div class="detailLabel">
+            👤 REKOR SAHİBİ
+          </div>
+
+          <div class="detailText">
+            ${record.holder}
+          </div>
+        </div>
+
+        <div class="detail">
+          <div class="detailLabel">
+            📚 AYRINTI
+          </div>
+
+          <div class="detailText">
+            ${record.detail}
+          </div>
+        </div>
+
+        <div class="detail">
+          <div class="detailLabel">
+            💡 ŞAŞIRTICI BİLGİ
+          </div>
+
+          <div class="detailText">
+            ${record.fact}
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <div class="actions">
+
+      <button class="action like">
+        ❤️
+      </button>
+
+      <button class="action comment">
+        💬
+      </button>
+
+      <button class="action save">
+        ⭐
+      </button>
+
+      <button class="action share">
+        ↗
+      </button>
+
+    </div>
+  `;
+
+
+  /* DETAY */
+
+  card
+    .querySelector(".detailBtn")
+    .addEventListener(
+      "click",
+      e=>{
+
+        e.stopPropagation();
+
+        const open=
+          card.classList.toggle(
+            "showDetails"
+          );
+
+        e.currentTarget.textContent=
+          open
+          ? "REKORU GİZLE"
+          : "REKORU GÖR";
+
+      }
+    );
+
+
+  /* LIKE */
+
+  card
+    .querySelector(".like")
+    .addEventListener(
+      "click",
+      e=>{
+
+        e.stopPropagation();
+
+        e.currentTarget
+          .classList
+          .toggle("liked");
+
+      }
+    );
+
+
+  /* SAVE */
+
+  card
+    .querySelector(".save")
+    .addEventListener(
+      "click",
+      e=>{
+
+        e.stopPropagation();
+
+        e.currentTarget
+          .classList
+          .toggle("saved");
+
+      }
+    );
+
+
+  /* COMMENT */
+
+  card
+    .querySelector(".comment")
+    .addEventListener(
+      "click",
+      e=>{
+
+        e.stopPropagation();
+
+        openComments();
+
+      }
+    );
+
+
+  /* SHARE */
+
+  card
+    .querySelector(".share")
+    .addEventListener(
+      "click",
+      async e=>{
+
+        e.stopPropagation();
+
+        try{
+
+          const text=
+            record.title+
+            " — RekorTok";
+
+          if(navigator.share){
+
+            await navigator.share({
+              title:"RekorTok",
+              text:text
+            });
+
+          }else if(navigator.clipboard){
+
+            await navigator.clipboard
+              .writeText(text);
+
+            showToast(
+              "Paylaşım metni kopyalandı."
+            );
+
+          }
+
+        }catch(err){}
+
+      }
+    );
+
+
+  return card;
+
+}
+
+
+/* =====================================================
+   NORMAL FEED
+===================================================== */
+
+function renderNormal(){
+
+  searchMode=false;
+
+  document
+    .getElementById("empty")
+    .classList
+    .remove("show");
+
+  document
+    .getElementById("searchInfo")
+    .classList
+    .remove("show");
+
+
+  const feed=
+    document.getElementById("feed");
+
+  feed.innerHTML="";
+
+
+  const previousIndex=
+    Math.max(
+      0,
+      currentIndex-1
+    );
+
+
+  const previousRecord=
+    records[
+      previousIndex %
+      records.length
+    ];
+
+  const currentRecord=
+    records[
+      currentIndex %
+      records.length
+    ];
+
+  const nextRecord=
+    records[
+      (currentIndex+1) %
+      records.length
+    ];
+
+
+  const previous=
+    createCard(previousRecord);
+
+  const current=
+    createCard(currentRecord);
+
+  const next=
+    createCard(nextRecord);
+
+
+  previous.classList.add("previous");
+
+  current.classList.add("active");
+
+  next.classList.add("next");
+
+
+  feed.appendChild(previous);
+  feed.appendChild(current);
+  feed.appendChild(next);
+
+
+  updateProgress();
+
+}
+
+
+/* =====================================================
+   NEXT
+===================================================== */
+
+function nextItem(){
+
+  if(moving)
+    return;
+
+  moving=true;
+
+
+  if(searchMode){
+
+    nextSearch();
+
+  }else{
+
+    currentIndex++;
+
+    renderNormal();
+
+  }
+
+
+  setTimeout(()=>{
+    moving=false;
+  },430);
+
+}
+
+
+/* =====================================================
+   PREVIOUS
+===================================================== */
+
+function previousItem(){
+
+  if(moving)
+    return;
+
+  moving=true;
+
+
+  if(searchMode){
+
+    previousSearch();
+
+  }else{
+
+    currentIndex=
+      Math.max(
+        0,
+        currentIndex-1
+      );
+
+    renderNormal();
+
+  }
+
+
+  setTimeout(()=>{
+    moving=false;
+  },430);
+
+}
+
+
+/* =====================================================
+   SEARCH RENDER
+===================================================== */
+
+function renderSearch(){
+
+  const feed=
+    document.getElementById("feed");
+
+  feed.innerHTML="";
+
+
+  if(searchResults.length===0){
+
+    document
+      .getElementById("empty")
+      .classList
+      .add("show");
+
+    const info=
+      document.getElementById(
+        "searchInfo"
+      );
+
+    info.textContent=
+      "Rekor bulunamadı";
+
+    info.classList.add("show");
+
+    updateProgress();
+
+    return;
+
+  }
+
+
+  document
+    .getElementById("empty")
+    .classList
+    .remove("show");
+
+
+  const record=
+    searchResults[
+      searchIndex
+    ];
+
+
+  const card=
+    createCard(record);
+
+  card.classList.add("active");
+
+  feed.appendChild(card);
+
+
+  const info=
+    document.getElementById(
+      "searchInfo"
+    );
+
+  info.textContent=
+    record.icon+
+    " "+
+    record.title;
+
+  info.classList.add("show");
+
+
+  updateProgress();
+
+}
+
+
+/* =====================================================
+   SEARCH NEXT
+===================================================== */
+
+function nextSearch(){
+
+  if(searchResults.length<=1)
+    return;
+
+  searchIndex++;
+
+  if(
+    searchIndex>=
+    searchResults.length
+  ){
+
+    searchIndex=0;
+
+  }
+
+  renderSearch();
+
+}
+
+
+/* =====================================================
+   SEARCH PREVIOUS
+===================================================== */
+
+function previousSearch(){
+
+  if(searchResults.length<=1)
+    return;
+
+  searchIndex--;
+
+  if(searchIndex<0){
+
+    searchIndex=
+      searchResults.length-1;
+
+  }
+
+  renderSearch();
+
+}
+
+
+/* =====================================================
+   SEARCH INPUT
+===================================================== */
+
+const searchInput=
+  document.getElementById(
+    "searchInput"
+  );
+
+const clearSearch=
+  document.getElementById(
+    "clearSearch"
+  );
+
+
+searchInput.addEventListener(
+  "input",
+  ()=>{
+
+    const value=
+      searchInput.value.trim();
+
+
+    clearSearch.classList.toggle(
+      "show",
+      value.length>0
+    );
+
+
+    if(!value){
+
+      searchMode=false;
+
+      searchResults=[];
+
+      searchIndex=0;
+
+      renderNormal();
+
+      return;
+
+    }
+
+
+    searchResults=
+      searchRecords(value);
+
+    searchIndex=0;
+
+    searchMode=true;
+
+    renderSearch();
+
+  }
+);
+
+
+/* =====================================================
+   CLEAR SEARCH
+===================================================== */
+
+clearSearch.addEventListener(
+  "click",
+  ()=>{
+
+    searchInput.value="";
+
+    clearSearch.classList.remove(
+      "show"
+    );
+
+    searchMode=false;
+
+    searchResults=[];
+
+    searchIndex=0;
+
+    renderNormal();
+
+    searchInput.focus();
+
+  }
+);
+
+
+/* =====================================================
+   PROGRESS
+===================================================== */
+
+function updateProgress(){
+
+  const fill=
+    document.getElementById(
+      "progressFill"
+    );
+
+
+  if(searchMode){
+
+    if(searchResults.length===0){
+
+      fill.style.width="0%";
+
+      return;
+
+    }
+
+
+    if(searchResults.length===1){
+
+      fill.style.width="100%";
+
+      return;
+
+    }
+
+
+    fill.style.width=
+      (
+        (searchIndex+1) /
+        searchResults.length *
+        100
+      )+
+      "%";
+
+    return;
+
+  }
+
+
+  const position=
+    currentIndex %
+    records.length;
+
+
+  fill.style.width=
+    (
+      (position+1) /
+      records.length *
+      100
+    )+
+    "%";
+
+}
+
+
+/* =====================================================
+   TOUCH
+===================================================== */
+
+let startY=0;
+let startX=0;
+let startTime=0;
+
+
+document.addEventListener(
+  "touchstart",
+  e=>{
+
+    if(
+      e.target.closest("button") ||
+      e.target.closest("input") ||
+      e.target.closest("textarea")
+    ){
+
+      return;
+
+    }
+
+
+    const touch=
+      e.changedTouches[0];
+
+    startY=
+      touch.clientY;
+
+    startX=
+      touch.clientX;
+
+    startTime=
+      Date.now();
+
+  },
+  {passive:true}
+);
+
+
+document.addEventListener(
+  "touchend",
+  e=>{
+
+    if(
+      e.target.closest("button") ||
+      e.target.closest("input") ||
+      e.target.closest("textarea")
+    ){
+
+      return;
+
+    }
+
+
+    const touch=
+      e.changedTouches[0];
+
+    const dy=
+      touch.clientY-startY;
+
+    const dx=
+      touch.clientX-startX;
+
+    const duration=
+      Date.now()-startTime;
+
+
+    if(duration>900)
+      return;
+
+    if(Math.abs(dy)<50)
+      return;
+
+    if(Math.abs(dy)<Math.abs(dx))
+      return;
+
+
+    if(dy<0){
+
+      nextItem();
+
+    }else{
+
+      previousItem();
+
+    }
+
+  },
+  {passive:true}
+);
+
+
+/* =====================================================
+   MOUSE WHEEL
+===================================================== */
+
+let wheelLocked=false;
+
+
+document.addEventListener(
+  "wheel",
+  e=>{
+
+    if(
+      e.target.closest("button") ||
+      e.target.closest("input") ||
+      e.target.closest("textarea")
+    ){
+
+      return;
+
+    }
+
+
+    if(wheelLocked)
+      return;
+
+    if(Math.abs(e.deltaY)<25)
+      return;
+
+
+    wheelLocked=true;
+
+
+    if(e.deltaY>0){
+
+      nextItem();
+
+    }else{
+
+      previousItem();
+
+    }
+
+
+    setTimeout(()=>{
+      wheelLocked=false;
+    },450);
+
+  },
+  {passive:true}
+);
+
+
+/* =====================================================
+   KEYBOARD
+===================================================== */
+
+document.addEventListener(
+  "keydown",
+  e=>{
+
+    if(
+      e.target.tagName==="INPUT" ||
+      e.target.tagName==="TEXTAREA"
+    ){
+
+      return;
+
+    }
+
+
+    if(
+      e.key==="ArrowDown" ||
+      e.key==="PageDown" ||
+      e.key===" "
+    ){
+
+      e.preventDefault();
+
+      nextItem();
+
+    }
+
+
+    if(
+      e.key==="ArrowUp" ||
+      e.key==="PageUp"
+    ){
+
+      e.preventDefault();
+
+      previousItem();
+
+    }
+
+
+    if(e.key==="Escape"){
+
+      closeComments();
+
+    }
+
+  }
+);
+
+
+/* =====================================================
+   COMMENTS
+===================================================== */
+
+const modal=
+  document.getElementById("modal");
+
+const commentInput=
+  document.getElementById(
+    "commentInput"
+  );
+
+
+function openComments(){
+
+  modal.classList.add("show");
+
+  setTimeout(()=>{
+    commentInput.focus();
+  },100);
+
+}
+
+
+function closeComments(){
+
+  modal.classList.remove("show");
+
+}
+
+
+document
+  .getElementById("closeComment")
+  .addEventListener(
+    "click",
+    closeComments
+  );
+
+
+document
+  .getElementById("sendComment")
+  .addEventListener(
+    "click",
+    ()=>{
+
+      if(
+        commentInput.value.trim()
+      ){
+
+        showToast(
+          "Yorum gönderildi."
+        );
+
+        commentInput.value="";
+
+      }
+
+      closeComments();
+
+    }
+  );
+
+
+modal.addEventListener(
+  "click",
+  e=>{
+
+    if(e.target===modal){
+
+      closeComments();
+
+    }
+
+  }
+);
+
+
+/* =====================================================
+   TOAST
+===================================================== */
+
+function showToast(text){
+
+  const toast=
+    document.createElement("div");
+
+  toast.textContent=text;
+
+
+  Object.assign(
+    toast.style,
+    {
+      position:"fixed",
+      left:"50%",
+      bottom:"55px",
+      transform:"translateX(-50%)",
+      zIndex:"99999",
+      padding:"10px 16px",
+      borderRadius:"999px",
+      background:"rgba(20,20,20,.95)",
+      color:"#fff",
+      border:"1px solid rgba(255,255,255,.12)",
+      fontSize:"13px",
+      fontWeight:"700"
+    }
+  );
+
+
+  document.body.appendChild(toast);
+
+
+  setTimeout(()=>{
+    toast.remove();
+  },1600);
+
+}
+
+
+/* =====================================================
+   BAŞLAT
+===================================================== */
+
+window.addEventListener(
+  "load",
+  ()=>{
+
+    renderNormal();
+
+
+    setTimeout(()=>{
+
+      document
+        .getElementById("intro")
+        .classList
+        .add("hide");
+
+    },1800);
+
+  }
+);
+
+</script>
+
+</body>
+</html>
